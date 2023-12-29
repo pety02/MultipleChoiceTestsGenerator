@@ -1,0 +1,303 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<Questions>
+	<Question>
+		<QuestionText>What is the capital of France?</QuestionText>
+		<PossibleAnswers>
+			<Answer>A) London</Answer>
+			<Answer>B) Paris</Answer>
+			<Answer>C) Rome</Answer>
+			<Answer>D) Madrid</Answer>
+		</PossibleAnswers>
+		<CorrectAnswer>B) Paris</CorrectAnswer>
+	</Question>
+	<Question>
+		<QuestionText>What is the largest planet in our solar system?</QuestionText>
+		<PossibleAnswers>
+			<Answer>A) Earth</Answer>
+			<Answer>B) Jupiter</Answer>
+			<Answer>C) Saturn</Answer>
+			<Answer>D) Mars</Answer>
+		</PossibleAnswers>
+		<CorrectAnswer>B) Jupiter</CorrectAnswer>
+	</Question>
+	<Question>
+		<QuestionText>Who is the author of "To Kill a Mockingbird"?</QuestionText>
+		<PossibleAnswers>
+			<Answer>A) F. Scott Fitzgerald</Answer>
+			<Answer>B) Harper Lee</Answer>
+			<Answer>C) Mark Twain</Answer>
+			<Answer>D) George Orwell</Answer>
+		</PossibleAnswers>
+		<CorrectAnswer>B) Harper Lee</CorrectAnswer>
+	</Question>
+	<Question>
+		<QuestionText>What is the chemical symbol for gold?</QuestionText>
+		<PossibleAnswers>
+			<Answer>A) Go</Answer>
+			<Answer>B) Au</Answer>
+			<Answer>C) Ag</Answer>
+			<Answer>D) Gd</Answer>
+		</PossibleAnswers>
+		<CorrectAnswer>Correct Answer: B) Au</CorrectAnswer>
+	</Question>
+	<Question>
+		<QuestionText>Which city is known as the City of Love?</QuestionText>
+		<PossibleAnswers>
+			<Answer>A) Paris</Answer>
+			<Answer>B) Rome</Answer>
+			<Answer>C) Venice</Answer>
+			<Answer>D) Barcelona</Answer>
+		</PossibleAnswers>
+		<CorrectAnswer>A) Paris</CorrectAnswer>
+	</Question>
+	<Question>
+		<QuestionText>What is the powerhouse of the cell?</QuestionText>
+		<PossibleAnswers>
+			<Answer>A) Nucleus</Answer>
+			<Answer>B) Mitochondria</Answer>
+			<Answer>C) Ribosome</Answer>
+			<Answer>D) Endoplasmic Reticulum</Answer>
+		</PossibleAnswers>
+		<CorrectAnswer>B) Mitochondria</CorrectAnswer>
+	</Question>
+	<Question>
+		<QuestionText>Who painted the famous artwork "Starry Night"?</QuestionText>
+		<PossibleAnswers>
+			<Answer>A) Claude Monet</Answer>
+			<Answer>B) Vincent van Gogh</Answer>
+			<Answer>C) Pablo Picasso</Answer>
+			<Answer>D) Leonardo da Vinci</Answer>
+		</PossibleAnswers>
+		<CorrectAnswer>B) Vincent van Goh</CorrectAnswer>
+	</Question>
+	<Question>
+		<QuestionText>What is the capital of Brazil?</QuestionText>
+		<PossibleAnswers>
+			<Answer>A) Rio de Janeiro</Answer>
+			<Answer>B) Brasília</Answer>
+			<Answer>C) São Paulo</Answer>
+			<Answer>D) Salvador</Answer>
+		</PossibleAnswers>
+		<CorrectAnswer>B) Brasília</CorrectAnswer>
+	</Question>
+	<Question>
+		<QuestionText>In which year did World War II end?</QuestionText>
+		<PossibleAnswers>
+			<Answer>A) 1943</Answer>
+			<Answer>B) 1945</Answer>
+			<Answer>C) 1947</Answer>
+			<Answer>D) 1950</Answer>
+		</PossibleAnswers>
+		<CorrectAnswer>B) 1945</CorrectAnswer>
+	</Question>
+	<Question>
+		<QuestionText>What is the largest mammal in the world?</QuestionText>
+		<PossibleAnswers>
+			<Answer>A) African Elephant</Answer>
+			<Answer>B) Blue Whale</Answer>
+			<Answer>C) Giraffe</Answer>
+			<Answer>D) Hippopotamus</Answer>
+		</PossibleAnswers>
+		<CorrectAnswer>B) Blue Whale</CorrectAnswer>
+	</Question>
+	<Question>
+		<QuestionText>Who developed the theory of relativity?</QuestionText>
+		<PossibleAnswers>
+			<Answer>A) Isaac Newton</Answer>
+			<Answer>B) Albert Einstein</Answer>
+			<Answer>C) Stephen Hawking</Answer>
+			<Answer>D) Nikola Tesla</Answer>
+		</PossibleAnswers>
+		<CorrectAnswer>B) Albert Einstein</CorrectAnswer>
+	</Question>
+	<Question>
+		<QuestionText>What is the chemical symbol for water?</QuestionText>
+		<PossibleAnswers>
+			<Answer>A) Wa</Answer>
+			<Answer>B) Hy</Answer>
+			<Answer>C) H2O</Answer>
+			<Answer>D) Wt</Answer>
+		</PossibleAnswers>
+		<CorrectAnswer>C) H2O</CorrectAnswer>
+	</Question>
+	<Question>
+		<QuestionText>Which country is home to the kangaroo?</QuestionText>
+		<PossibleAnswers>
+			<Answer>A) New Zealand</Answer>
+			<Answer>B) Australia</Answer>
+			<Answer>C) South Africa</Answer>
+			<Answer>D) Brazil</Answer>
+		</PossibleAnswers>
+		<CorrectAnswer>B) Australia</CorrectAnswer>
+	</Question>
+	<Question>
+		<QuestionText>Who is known as the father of modern physics?</QuestionText>
+		<PossibleAnswers>
+			<Answer>A) Galileo Galilei</Answer>
+			<Answer>B) Isaac Newton</Answer>
+			<Answer>C) Max Planck</Answer>
+			<Answer>D) Albert Einstein</Answer>
+		</PossibleAnswers>
+		<CorrectAnswer>D) Albert Einstein</CorrectAnswer>
+	</Question>
+	<Question>
+		<QuestionText>What is the largest ocean in the world?</QuestionText>
+		<PossibleAnswers>
+			<Answer>A) Atlantic Ocean</Answer>
+			<Answer>B) Indian Ocean</Answer>
+			<Answer>C) Arctic Ocean</Answer>
+			<Answer>D) Pacific Ocean</Answer>
+		</PossibleAnswers>
+		<CorrectAnswer>D) Pacific Ocean</CorrectAnswer>
+	</Question>
+	<Question>
+		<QuestionText>Which planet is known as the Morning Star and Evening Star?</QuestionText>
+		<PossibleAnswers>
+			<Answer>A) Venus</Answer>
+			<Answer>B) Mercury</Answer>
+			<Answer>C) Mars</Answer>
+			<Answer>D) Jupiter</Answer>
+		</PossibleAnswers>
+		<CorrectAnswer>A) Venus</CorrectAnswer>
+	</Question>
+	<Question>
+		<QuestionText>Who wrote the famous novel "1984"?</QuestionText>
+		<PossibleAnswers>
+			<Answer>A) George Orwell</Answer>
+			<Answer>B) Aldous Huxley</Answer>
+			<Answer>C) J.D. Salinger</Answer>
+			<Answer>D) Ernest Hemingway</Answer>
+		</PossibleAnswers>
+		<CorrectAnswer>A) George Orwell</CorrectAnswer>
+	</Question>
+	<Question>
+		<QuestionText>What is the chemical symbol for iron?</QuestionText>
+		<PossibleAnswers>
+			<Answer>A) Ir</Answer>
+			<Answer>B) Fe</Answer>
+			<Answer>C) Fi</Answer>
+			<Answer>D) Io</Answer>
+		</PossibleAnswers>
+		<CorrectAnswer>B) Fe</CorrectAnswer>
+	</Question>
+	<Question>
+		<QuestionText>Which country is famous for the ancient ruins of Machu Picchu?</QuestionText>
+		<PossibleAnswers>
+			<Answer>A) Mexico</Answer>
+			<Answer>B) Peru</Answer>
+			<Answer>C) Colombia</Answer>
+			<Answer>D) Chile</Answer>
+		</PossibleAnswers>
+		<CorrectAnswer>B) Peru</CorrectAnswer>
+	</Question>
+	<Question>
+		<QuestionText>What is the tallest mountain in the world?</QuestionText>
+		<PossibleAnswers>
+			<Answer>A) K2</Answer>
+			<Answer>B) Mount Everest</Answer>
+			<Answer>C) Kanchenjunga</Answer>
+			<Answer>D) Lhotse</Answer>
+		</PossibleAnswers>
+		<CorrectAnswer>B) Mount Everest</CorrectAnswer>
+	</Question>
+	<Question>
+		<QuestionText>Who is credited with inventing the telephone?</QuestionText>
+		<PossibleAnswers>
+			<Answer>A) Thomas Edison</Answer>
+			<Answer>B) Alexander Graham Bell</Answer>
+			<Answer>C) Nikola Tesla</Answer>
+			<Answer>D) Guglielmo Marconi</Answer>
+		</PossibleAnswers>
+		<CorrectAnswer>B) Alexander Graham Bell</CorrectAnswer>
+	</Question>
+	<Question>
+		<QuestionText>What is the chemical symbol for silver?</QuestionText>
+		<PossibleAnswers>
+			<Answer>A) S</Answer>
+			<Answer>B) Si</Answer>
+			<Answer>C) Ag</Answer>
+			<Answer>D) Agi</Answer>
+		</PossibleAnswers>
+		<CorrectAnswer>C) Ag</CorrectAnswer>
+	</Question>
+	<Question>
+		<QuestionText>In which country would you find the Pyramids of Giza?</QuestionText>
+		<PossibleAnswers>
+			<Answer>A) Iraq</Answer>
+			<Answer>B) Egypt</Answer>
+			<Answer>C) Greece</Answer>
+			<Answer>D) Turkey</Answer>
+		</PossibleAnswers>
+		<CorrectAnswer>B) Egypt</CorrectAnswer>
+	</Question>
+	<Question>
+		<QuestionText>Who painted the famous artwork "The Last Supper"?</QuestionText>
+		<PossibleAnswers>
+			<Answer>A) Michelangelo</Answer>
+			<Answer>B) Leonardo da Vinci</Answer>
+			<Answer>C) Raphael</Answer>
+			<Answer>D) Donatello</Answer>
+		</PossibleAnswers>
+		<CorrectAnswer>B) Leonardo da Vinci</CorrectAnswer>
+	</Question>
+	<Question>
+		<QuestionText>What is the largest desert in the world?</QuestionText>
+		<PossibleAnswers>
+			<Answer>A) Sahara Desert</Answer>
+			<Answer>B) Gobi Desert</Answer>
+			<Answer>C) Arabian Desert</Answer>
+			<Answer>D) Antarctic Desert</Answer>
+		</PossibleAnswers>
+		<CorrectAnswer>A) Sahara Desert</CorrectAnswer>
+	</Question>
+	<Question>
+		<QuestionText>Who is known as the "Father of Medicine"?</QuestionText>
+		<PossibleAnswers>
+			<Answer>A) Hippocrates</Answer>
+			<Answer>B) Galen</Answer>
+			<Answer>C) Aristotle</Answer>
+			<Answer>D) Plato</Answer>
+		</PossibleAnswers>
+		<CorrectAnswer>A) Hippocrates</CorrectAnswer>
+	</Question>
+	<Question>
+		<QuestionText>What is the chemical symbol for potassium?</QuestionText>
+		<PossibleAnswers>
+			<Answer>A) Pt</Answer>
+			<Answer>B) Po</Answer>
+			<Answer>C) K</Answer>
+			<Answer>D) Ka</Answer>
+		</PossibleAnswers>
+		<CorrectAnswer>C) K</CorrectAnswer>
+	</Question>
+	<Question>
+		<QuestionText>Which country is known as the Land of the Rising Sun?</QuestionText>
+		<PossibleAnswers>
+			<Answer>A) China</Answer>
+			<Answer>B) South Korea</Answer>
+			<Answer>C) Japan</Answer>
+			<Answer>D) Vietnam</Answer>
+		</PossibleAnswers>
+		<CorrectAnswer>C) Japan</CorrectAnswer>
+	</Question>
+	<Question>
+		<QuestionText>Who wrote the play "Romeo and Juliet"?</QuestionText>
+		<PossibleAnswers>
+			<Answer>A) William Wordsworth</Answer>
+			<Answer>B) William Shakespeare</Answer>
+			<Answer>C) Jane Austen</Answer>
+			<Answer>D) Emily Brontë</Answer>
+		</PossibleAnswers>
+		<CorrectAnswer>B) William Shakespeare</CorrectAnswer>
+	</Question>
+	<Question>
+		<QuestionText>What is the chemical symbol for sodium?</QuestionText>
+		<PossibleAnswers>
+			<Answer>A) So</Answer>
+			<Answer>B) Sa</Answer>
+			<Answer>C) Sd</Answer>
+			<Answer>D) Na</Answer>
+		</PossibleAnswers>
+		<CorrectAnswer>D) Na</CorrectAnswer>
+	</Question>
+</Questions>
