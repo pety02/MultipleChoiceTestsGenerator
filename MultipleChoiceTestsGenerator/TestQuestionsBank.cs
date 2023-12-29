@@ -27,10 +27,16 @@ namespace MultipleChoiceTestsGenerator
                 var question = questionList.ElementAt(r);
 
                 string questionText = question.Element("QuestionText").Value;
-                string[] possibleAnswers = question.Element("PossibleAnswers").Elements("Answer").Select(a => a.Value).ToArray();
-                string correctAnswer = question.Element("CorrectAnswer").Value;
+                string[] possibleAnswers = question
+                    .Element("PossibleAnswers")
+                    .Elements("Answer").Select(a => a.Value)
+                    .ToArray();
+                string[] correctAnswers = question
+                    .Element("CorrectAnswers")
+                    .Elements("Answer").Select(a => a.Value)
+                    .ToArray();
                 
-                questions[i] = new TestQuestion(questionText, possibleAnswers, correctAnswer);
+                questions[i] = new TestQuestion(questionText, possibleAnswers, correctAnswers);
                 i++;
             }
         }

@@ -10,13 +10,13 @@ namespace MultipleChoiceTestsGenerator
     {
         private string questionText;
         private string[] possibleAnswers; 
-        private string correctAnswer;
+        private string[] correctAnswers;
 
-        public TestQuestion(string questionText, string[] possibleAnswers, string correctAnswer)
+        public TestQuestion(string questionText, string[] possibleAnswers, string[] correctAnswers)
         {
             QuestionText = questionText;
             PossibleAnswers = possibleAnswers;
-            CorrectAnswer = correctAnswer;
+            CorrectAnswers = correctAnswers;
         }
 
         public string QuestionText 
@@ -41,15 +41,15 @@ namespace MultipleChoiceTestsGenerator
                 possibleAnswers = value != null && value.Length == 4 ? value : new string[4]; 
             }
         }
-        public string CorrectAnswer 
+        public string[] CorrectAnswers
         { 
             get
             {
-                return correctAnswer;
+                return correctAnswers;
             }
             set
             {
-                correctAnswer = !String.IsNullOrEmpty(value) ? value : "";
+                correctAnswers = value != null ? value : new string[4];
             }
         }
     }

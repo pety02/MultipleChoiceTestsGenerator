@@ -12,7 +12,8 @@ namespace MultipleChoiceTestsGenerator
         private int currentQuestionNo;
         private int totalScore;
         private int maxQuestions;
-        private string currentAnswer;
+        private string[] currentAnswers;
+        private int currentAnswersCount = 0;
         private Random random;
         private System.Timers.Timer countdownTimer;
         private CancellationTokenSource cancellationTokenSource;
@@ -44,48 +45,48 @@ namespace MultipleChoiceTestsGenerator
             questionNoLabel.Text = "Question No " + questionNo.ToString();
             questionTextLabel.Text = CurrentQuestion.QuestionText;
 
-            firstAnswerRadioBtn.Text = CurrentQuestion.PossibleAnswers[0];
-            answersGroupBox.Controls.Add(firstAnswerRadioBtn);
-            secondAnswerRadioBtn.Text = CurrentQuestion.PossibleAnswers[1];
-            answersGroupBox.Controls.Add(secondAnswerRadioBtn);
-            thirdAnswerRadioBtn.Text = CurrentQuestion.PossibleAnswers[2];
-            answersGroupBox.Controls.Add(thirdAnswerRadioBtn);
-            fourthAnswerRadioBtn.Text = CurrentQuestion.PossibleAnswers[3];
-            answersGroupBox.Controls.Add(fourthAnswerRadioBtn);
+            checkBox1.Text = CurrentQuestion.PossibleAnswers[0];
+            answersGroupBox.Controls.Add(checkBox1);
+            checkBox2.Text = CurrentQuestion.PossibleAnswers[1];
+            answersGroupBox.Controls.Add(checkBox2);
+            checkBox3.Text = CurrentQuestion.PossibleAnswers[2];
+            answersGroupBox.Controls.Add(checkBox3);
+            checkBox4.Text = CurrentQuestion.PossibleAnswers[3];
+            answersGroupBox.Controls.Add(checkBox4);
 
-            firstAnswerRadioBtn.Checked = false;
-            secondAnswerRadioBtn.Checked = false;
-            thirdAnswerRadioBtn.Checked = false;
-            fourthAnswerRadioBtn.Checked = false;
+            checkBox1.Checked = false;
+            checkBox2.Checked = false;
+            checkBox3.Checked = false;
+            checkBox4.Checked = false;
         }
 
         private void finishTest()
         {
-            
-                double percentage = (totalScore * maxQuestions) / 100;
-                int grade = 0;
-                if (0.0 <= percentage && percentage <= 0.54)
-                {
-                    grade = 2;
-                }
-                else if (0.55 <= percentage && percentage <= 0.64)
-                {
-                    grade = 3;
-                }
-                else if (0.65 <= percentage && percentage <= 0.74)
-                {
-                    grade = 4;
-                }
-                else if (0.75 <= percentage && percentage <= 0.84)
-                {
-                    grade = 5;
-                }
-                else
-                {
-                    grade = 6;
-                }
-                MessageBox.Show("Points: " + totalScore + "/" + maxQuestions + "\nYour grade is: " + grade);
-                return;
+
+            double percentage = (totalScore * maxQuestions) / 100;
+            int grade = 0;
+            if (0.0 <= percentage && percentage <= 0.54)
+            {
+                grade = 2;
+            }
+            else if (0.55 <= percentage && percentage <= 0.64)
+            {
+                grade = 3;
+            }
+            else if (0.65 <= percentage && percentage <= 0.74)
+            {
+                grade = 4;
+            }
+            else if (0.75 <= percentage && percentage <= 0.84)
+            {
+                grade = 5;
+            }
+            else
+            {
+                grade = 6;
+            }
+            MessageBox.Show("Points: " + totalScore + "/" + maxQuestions + "\nYour grade is: " + grade);
+            return;
         }
 
         private async void StartCountdown()
@@ -158,7 +159,7 @@ namespace MultipleChoiceTestsGenerator
 
             greetingUserLabel.Text = "Hello, " + studentName;
             totalScore = 0;
-            currentAnswer = "";
+            currentAnswers = new string[4];
             currentQuestionNo = 1;
             maxQuestions = questionsCount;
             QuestionsBank = makeTest(maxQuestions);
@@ -166,29 +167,9 @@ namespace MultipleChoiceTestsGenerator
             initializeQuestion(currentQuestionNo);
         }
 
-        private void firstAnswerRadioBtn_CheckedChanged(object sender, EventArgs e)
-        {
-            currentAnswer = firstAnswerRadioBtn.Text;
-        }
-
-        private void secondAnswerRadioBtn_CheckedChanged(object sender, EventArgs e)
-        {
-            currentAnswer = secondAnswerRadioBtn.Text;
-        }
-
-        private void thirdAnswerRadioBtn_CheckedChanged(object sender, EventArgs e)
-        {
-            currentAnswer = thirdAnswerRadioBtn.Text;
-        }
-
-        private void fourthAnswerRadioBtn_CheckedChanged(object sender, EventArgs e)
-        {
-            currentAnswer = fourthAnswerRadioBtn.Text;
-        }
-
         private void submitTestButton_Click(object sender, EventArgs e)
         {
-            if(0 < secondsLeft)
+            if (0 < secondsLeft)
             {
                 countdownTimer.Stop();
             }
@@ -204,9 +185,26 @@ namespace MultipleChoiceTestsGenerator
 
         private void nextQuestionButton_Click(object sender, EventArgs e)
         {
-            if (currentAnswer == CurrentQuestion.CorrectAnswer)
+            currentAnswers = new string[currentAnswersCount];
+            int i = 0;
+            foreach(CheckBox ctrl in answersGroupBox.Controls)
             {
-                totalScore++;
+                if(ctrl.Checked)
+                {
+                    currentAnswers[i] = ctrl.Text;
+                    i++;
+                }
+            }
+            foreach (string answer in CurrentQuestion.CorrectAnswers) 
+            {
+                foreach (string currentAnswer in currentAnswers)
+                {
+                    if (answer == currentAnswer)
+                    {
+                        totalScore++;
+                        break;
+                    }
+                }
             }
 
             currentQuestionNo++;
@@ -217,6 +215,50 @@ namespace MultipleChoiceTestsGenerator
                 submitTestButton.Enabled = true;
                 nextQuestionButton.Enabled = false;
             }
+        }
+
+        private void checkBox1_CheckedChanged(object sender, EventArgs e)
+        {
+            if(checkBox1.Checked)
+            {
+                currentAnswersCount++;
+                return;
+            } 
+            
+            currentAnswersCount--;
+        }
+
+        private void checkBox2_CheckedChanged(object sender, EventArgs e)
+        {
+            if (checkBox2.Checked)
+            {
+                currentAnswersCount++;
+                return;
+            }
+
+            currentAnswersCount--;
+        }
+
+        private void checkBox3_CheckedChanged(object sender, EventArgs e)
+        {
+            if (checkBox3.Checked)
+            {
+                currentAnswersCount++;
+                return;
+            }
+            
+            currentAnswersCount--;
+        }
+
+        private void checkBox4_CheckedChanged(object sender, EventArgs e)
+        {
+            if (checkBox4.Checked)
+            {
+                currentAnswersCount++;
+                return;
+            }
+            
+            currentAnswersCount--;
         }
     }
 }
