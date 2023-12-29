@@ -29,11 +29,14 @@ namespace MultipleChoiceTestsGenerator
                 string questionText = question.Element("QuestionText").Value;
                 string[] possibleAnswers = question
                     .Element("PossibleAnswers")
-                    .Elements("Answer").Select(a => a.Value)
+                    .Elements("Answer")
+                    .Select(a => a.Value)
                     .ToArray();
+                
                 string[] correctAnswers = question
                     .Element("CorrectAnswers")
-                    .Elements("Answer").Select(a => a.Value)
+                    .Elements("Answer")
+                    .Select(a => a.Value)
                     .ToArray();
                 
                 questions[i] = new TestQuestion(questionText, possibleAnswers, correctAnswers);

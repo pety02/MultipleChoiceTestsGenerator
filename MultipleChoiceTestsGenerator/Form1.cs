@@ -1,7 +1,4 @@
-using System;
-using System.Reflection.Emit;
-using System.Threading;
-using System.Windows.Forms;
+using System.Diagnostics;
 
 namespace MultipleChoiceTestsGenerator
 {
@@ -9,39 +6,97 @@ namespace MultipleChoiceTestsGenerator
     {
         private TestQuestionsBank questionsBank;
         private TestQuestion currentQuestion;
+        private TestQuestion prevQuestion;
+        private TestQuestion nextQuestion;
         private int currentQuestionNo;
         private int totalScore;
         private int maxQuestions;
-        private string[] currentAnswers;
-        private int currentAnswersCount = 0;
-        private Random random;
+        private int currentAnswersCount;
         private System.Timers.Timer countdownTimer;
         private CancellationTokenSource cancellationTokenSource;
         private int secondsLeft;
+        private string studentName;
 
         private TestQuestionsBank makeTest(int questionsCount)
         {
             return new TestQuestionsBank(questionsCount);
         }
 
-        private void initializeQuestion(int questionNo)
+        private void EnableAndDisableButtons(int questionNo)
         {
-            if (1 == questionNo)
+            if (!InputValidator.hasCheckedAnswers(answersGroupBox))
             {
-                prevQuestionButton.Enabled = false;
-                submitTestButton.Enabled = false;
-                nextQuestionButton.Enabled = true;
-            }
-            if (1 < questionNo)
-            {
-                prevQuestionButton.Enabled = true;
+                if (1 == questionNo)
+                {
+                    prevQuestionButton.Enabled = false;
+                    submitTestButton.Enabled = false;
+                    nextQuestionButton.Enabled = false;
+                }
+                if (1 < questionNo && questionNo < maxQuestions)
+                {
+                    prevQuestionButton.Enabled = true;
+                    submitTestButton.Enabled = false;
+                    nextQuestionButton.Enabled = false;
+                }
+                if (questionNo == maxQuestions)
+                {
+                    prevQuestionButton.Enabled = true;
+                    submitTestButton.Enabled = true;
+                    nextQuestionButton.Enabled = false;
+                }
             }
             else
             {
-                prevQuestionButton.Enabled = false;
+                if (1 <= questionNo && questionNo < maxQuestions)
+                {
+                    prevQuestionButton.Enabled = true;
+                    submitTestButton.Enabled = true;
+                    nextQuestionButton.Enabled = true;
+                }
+                if (questionNo == maxQuestions)
+                {
+                    prevQuestionButton.Enabled = true;
+                    submitTestButton.Enabled = true;
+                    nextQuestionButton.Enabled = false;
+                }
             }
+        }
+
+        private void DisableAllControls()
+        {
+            prevQuestionButton.Enabled = false;
+            nextQuestionButton.Enabled = false;
+            submitTestButton.Enabled = false;
+            saveAnswerBtn.Enabled = false;
+            checkBox1.Enabled = false;
+            checkBox2.Enabled = false;
+            checkBox3.Enabled = false;
+            checkBox4.Enabled = false;
+        }
+
+        private void UncheckCheckBoxes()
+        {
+            checkBox1.Checked = false;
+            checkBox2.Checked = false;
+            checkBox3.Checked = false;
+            checkBox4.Checked = false;
+        }
+
+        private void initializeQuestion(int questionNo)
+        {
+            EnableAndDisableButtons(questionNo);
 
             CurrentQuestion = QuestionsBank.Questions[questionNo - 1];
+            if (questionNo - 1 > 0)
+            {
+                PrevQuestion = QuestionsBank.Questions[questionNo - 2];
+            }
+
+            if (questionNo - 1 < QuestionsBank.Questions.Length)
+            {
+                NextQuestion = QuestionsBank.Questions[questionNo];
+            }
+
             questionNoLabel.Text = "Question No " + questionNo.ToString();
             questionTextLabel.Text = CurrentQuestion.QuestionText;
 
@@ -54,30 +109,25 @@ namespace MultipleChoiceTestsGenerator
             checkBox4.Text = CurrentQuestion.PossibleAnswers[3];
             answersGroupBox.Controls.Add(checkBox4);
 
-            checkBox1.Checked = false;
-            checkBox2.Checked = false;
-            checkBox3.Checked = false;
-            checkBox4.Checked = false;
+            UncheckCheckBoxes();
         }
 
-        private void finishTest()
+        private int EvaluateTest(double percentage)
         {
-
-            double percentage = (totalScore * maxQuestions) / 100;
             int grade = 0;
-            if (0.0 <= percentage && percentage <= 0.54)
+            if (0 <= percentage && percentage <= 54)
             {
                 grade = 2;
             }
-            else if (0.55 <= percentage && percentage <= 0.64)
+            else if (55 <= percentage && percentage <= 64)
             {
                 grade = 3;
             }
-            else if (0.65 <= percentage && percentage <= 0.74)
+            else if (65 <= percentage && percentage <= 74)
             {
                 grade = 4;
             }
-            else if (0.75 <= percentage && percentage <= 0.84)
+            else if (75 <= percentage && percentage <= 84)
             {
                 grade = 5;
             }
@@ -85,8 +135,35 @@ namespace MultipleChoiceTestsGenerator
             {
                 grade = 6;
             }
-            MessageBox.Show("Points: " + totalScore + "/" + maxQuestions + "\nYour grade is: " + grade);
-            return;
+
+            return grade;
+        }
+
+        private void WriteReport(int grade, double percentage)
+        {
+            DateTime now = new DateTime();
+            string filePath = $"{studentName}"
+                + $".txt";
+            string reportMessage = $"Test Report - [{now}]:"
+                + $"\n\tStudent Name: {studentName}\n\tTotal Score: {totalScore}/{maxQuestions}"
+                + $"\n\twith percetage {percentage}% of 100% => Grade: {grade}\n";
+
+            FileWriter fw = new FileWriter(filePath, reportMessage);
+            fw.Write();
+        }
+
+        private void FinishTest()
+        {
+            double percentage = (totalScore * 100d) / maxQuestions;
+            int grade = EvaluateTest(percentage);
+
+            string message = $"Points: {totalScore}/{maxQuestions}\nYour grade is: {grade}";
+            DialogResult msgDialog = MessageBox.Show(message, "Test Resukt", MessageBoxButtons.OK);
+            if(msgDialog == DialogResult.OK)
+            {
+                WriteReport(grade, percentage);
+                Close();
+            }
         }
 
         private async void StartCountdown()
@@ -100,8 +177,6 @@ namespace MultipleChoiceTestsGenerator
                     secondsLeft--;
                     await Task.Delay(1000, cancellationTokenSource.Token);
                 }
-
-                finishTest();
             }
             catch (TaskCanceledException)
             {
@@ -116,7 +191,7 @@ namespace MultipleChoiceTestsGenerator
             if (secondsLeft < 0)
             {
                 countdownTimer.Stop();
-                finishTest();
+                FinishTest();
             }
         }
 
@@ -145,11 +220,34 @@ namespace MultipleChoiceTestsGenerator
             }
         }
 
+        public TestQuestion PrevQuestion
+        {
+            get
+            {
+                return prevQuestion;
+            }
+            set
+            {
+                prevQuestion = value;
+            }
+        }
+
+        public TestQuestion NextQuestion
+        {
+            get
+            {
+                return nextQuestion;
+            }
+            set
+            {
+                nextQuestion = value;
+            }
+        }
+
 
         public Form1(int questionsCount, int seconds, string studentName)
         {
             InitializeComponent();
-            random = new Random();
 
             countdownTimer = new System.Timers.Timer();
             secondsLeft = seconds;
@@ -157,9 +255,10 @@ namespace MultipleChoiceTestsGenerator
             countdownTimer.Elapsed += CountdownTimer_Tick;
             StartCountdown();
 
+            currentAnswersCount = 0;
+            this.studentName = studentName;
             greetingUserLabel.Text = "Hello, " + studentName;
             totalScore = 0;
-            currentAnswers = new string[4];
             currentQuestionNo = 1;
             maxQuestions = questionsCount;
             QuestionsBank = makeTest(maxQuestions);
@@ -173,7 +272,8 @@ namespace MultipleChoiceTestsGenerator
             {
                 countdownTimer.Stop();
             }
-            finishTest();
+            DisableAllControls();
+            FinishTest();
         }
 
         private void prevQuestionButton_Click(object sender, EventArgs e)
@@ -181,23 +281,27 @@ namespace MultipleChoiceTestsGenerator
             currentQuestionNo--;
             initializeQuestion(currentQuestionNo);
             submitTestButton.Enabled = false;
+
+            foreach (CheckBox answerCheckBox in answersGroupBox.Controls)
+            {
+                for (int i = CurrentQuestion.CurrentAnswers.Length - 1; i >= 0; --i)
+                {
+                    string answer = CurrentQuestion.CurrentAnswers[i];
+                    if (answer == answerCheckBox.Text)
+                    {
+                        answerCheckBox.Checked = true;
+                        break;
+                    }
+                }
+            }
+
         }
 
         private void nextQuestionButton_Click(object sender, EventArgs e)
         {
-            currentAnswers = new string[currentAnswersCount];
-            int i = 0;
-            foreach(CheckBox ctrl in answersGroupBox.Controls)
+            foreach (string answer in CurrentQuestion.CorrectAnswers)
             {
-                if(ctrl.Checked)
-                {
-                    currentAnswers[i] = ctrl.Text;
-                    i++;
-                }
-            }
-            foreach (string answer in CurrentQuestion.CorrectAnswers) 
-            {
-                foreach (string currentAnswer in currentAnswers)
+                foreach (string currentAnswer in CurrentQuestion.CurrentAnswers)
                 {
                     if (answer == currentAnswer)
                     {
@@ -210,6 +314,18 @@ namespace MultipleChoiceTestsGenerator
             currentQuestionNo++;
             initializeQuestion(currentQuestionNo);
 
+            foreach (CheckBox answerCheckBox in answersGroupBox.Controls)
+            {
+                foreach (string answer in CurrentQuestion.CurrentAnswers)
+                {
+                    if (answer == answerCheckBox.Text)
+                    {
+                        answerCheckBox.Checked = true;
+                        break;
+                    }
+                }
+            }
+
             if (currentQuestionNo == maxQuestions)
             {
                 submitTestButton.Enabled = true;
@@ -219,12 +335,12 @@ namespace MultipleChoiceTestsGenerator
 
         private void checkBox1_CheckedChanged(object sender, EventArgs e)
         {
-            if(checkBox1.Checked)
+            if (checkBox1.Checked)
             {
                 currentAnswersCount++;
                 return;
-            } 
-            
+            }
+
             currentAnswersCount--;
         }
 
@@ -246,7 +362,7 @@ namespace MultipleChoiceTestsGenerator
                 currentAnswersCount++;
                 return;
             }
-            
+
             currentAnswersCount--;
         }
 
@@ -257,8 +373,36 @@ namespace MultipleChoiceTestsGenerator
                 currentAnswersCount++;
                 return;
             }
-            
+
             currentAnswersCount--;
+        }
+
+        private void EnableOrDisableNextQuestionAndSubmitButtons()
+        {
+            if (currentQuestionNo == maxQuestions)
+            {
+                submitTestButton.Enabled = true;
+                nextQuestionButton.Enabled = false;
+            }
+            else
+            {
+                nextQuestionButton.Enabled = true;
+                submitTestButton.Enabled = false;
+            }
+        }
+
+        private void saveAnswerBtn_Click(object sender, EventArgs e)
+        {
+            EnableOrDisableNextQuestionAndSubmitButtons();
+            int questionIndex = 0;
+            foreach (CheckBox ctrl in answersGroupBox.Controls)
+            {
+                if (ctrl.Checked)
+                {
+                    CurrentQuestion.CurrentAnswers[questionIndex] = ctrl.Text;
+                    questionIndex++;
+                }
+            }
         }
     }
 }

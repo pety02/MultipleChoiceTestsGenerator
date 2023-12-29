@@ -37,5 +37,18 @@ namespace MultipleChoiceTestsGenerator
                 return false;
             }
         }
+
+        public static bool hasCheckedAnswers(GroupBox groupBox)
+        {
+            foreach(CheckBox ch in groupBox.Controls)
+            {
+                if (ch.Checked)
+                {
+                    return true;
+                }
+            }
+
+            return false;
+        }
     }
 }

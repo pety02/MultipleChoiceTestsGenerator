@@ -11,12 +11,14 @@ namespace MultipleChoiceTestsGenerator
         private string questionText;
         private string[] possibleAnswers; 
         private string[] correctAnswers;
+        private string[] currentAnswers;
 
         public TestQuestion(string questionText, string[] possibleAnswers, string[] correctAnswers)
         {
             QuestionText = questionText;
             PossibleAnswers = possibleAnswers;
             CorrectAnswers = correctAnswers;
+            CurrentAnswers = new string[possibleAnswers.Length];
         }
 
         public string QuestionText 
@@ -50,6 +52,18 @@ namespace MultipleChoiceTestsGenerator
             set
             {
                 correctAnswers = value != null ? value : new string[4];
+            }
+        }
+
+        public string[] CurrentAnswers
+        {
+            get
+            {
+                return currentAnswers;
+            }
+            set
+            {
+                currentAnswers = value != null ? value : new string[4];
             }
         }
     }

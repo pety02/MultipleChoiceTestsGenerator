@@ -45,6 +45,7 @@
             nextQuestionButton = new Button();
             prevQuestionButton = new Button();
             timelabel = new Label();
+            saveAnswerBtn = new Button();
             answersGroupBox.SuspendLayout();
             SuspendLayout();
             // 
@@ -208,11 +209,22 @@
             timelabel.TabIndex = 18;
             timelabel.Text = "label1";
             // 
+            // saveAnswerBtn
+            // 
+            saveAnswerBtn.Location = new Point(322, 183);
+            saveAnswerBtn.Name = "saveAnswerBtn";
+            saveAnswerBtn.Size = new Size(111, 29);
+            saveAnswerBtn.TabIndex = 20;
+            saveAnswerBtn.Text = "Save Answer";
+            saveAnswerBtn.UseVisualStyleBackColor = true;
+            saveAnswerBtn.Click += saveAnswerBtn_Click;
+            // 
             // Form1
             // 
             AutoScaleDimensions = new SizeF(8F, 20F);
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(800, 450);
+            Controls.Add(saveAnswerBtn);
             Controls.Add(timelabel);
             Controls.Add(prevQuestionButton);
             Controls.Add(nextQuestionButton);
@@ -249,5 +261,6 @@
         private CheckBox checkBox3;
         private CheckBox checkBox2;
         private CheckBox checkBox1;
+        private Button saveAnswerBtn;
     }
 }
