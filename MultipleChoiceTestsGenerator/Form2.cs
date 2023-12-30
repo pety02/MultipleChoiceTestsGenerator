@@ -10,9 +10,9 @@ using System.Windows.Forms;
 
 namespace MultipleChoiceTestsGenerator
 {
-    public partial class Form2 : Form
+    public partial class TestDimensionsForm : Form
     {
-        public Form2()
+        public TestDimensionsForm()
         {
             InitializeComponent();
             if (!InputValidator.IsValidNumberInput(questionsCountTextBox.Text)
@@ -32,7 +32,7 @@ namespace MultipleChoiceTestsGenerator
             string studentName = studentNameTextBox.Text;
             int seconds = Int32.Parse(timeTextBox.Text);
 
-            Form1 testForm = new Form1(questionsCount, seconds, studentName);
+            TestForm testForm = new TestForm(questionsCount, seconds, studentName);
             testForm.Show();
             this.Hide();
         }

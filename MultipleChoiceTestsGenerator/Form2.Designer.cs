@@ -1,6 +1,6 @@
 ﻿namespace MultipleChoiceTestsGenerator
 {
-    partial class Form2
+    partial class TestDimensionsForm
     {
         /// <summary>
         /// Required designer variable.
@@ -108,7 +108,7 @@
             label5.TabIndex = 9;
             label5.Text = "Define Test Dimensions";
             // 
-            // Form2
+            // TestDimensionsForm
             // 
             AutoScaleDimensions = new SizeF(8F, 20F);
             AutoScaleMode = AutoScaleMode.Font;
@@ -121,8 +121,8 @@
             Controls.Add(startTestButton);
             Controls.Add(timeTextBox);
             Controls.Add(studentNameTextBox);
-            Name = "Form2";
-            Text = "Form2";
+            Name = "TestDimensionsForm";
+            Text = "Test Dimensions";
             ResumeLayout(false);
             PerformLayout();
         }

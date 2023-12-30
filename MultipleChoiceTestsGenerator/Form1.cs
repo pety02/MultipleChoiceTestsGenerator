@@ -2,7 +2,7 @@ using System.Diagnostics;
 
 namespace MultipleChoiceTestsGenerator
 {
-    public partial class Form1 : Form
+    public partial class TestForm : Form
     {
         private TestQuestionsBank questionsBank;
         private TestQuestion currentQuestion;
@@ -17,14 +17,14 @@ namespace MultipleChoiceTestsGenerator
         private int secondsLeft;
         private string studentName;
 
-        private TestQuestionsBank makeTest(int questionsCount)
+        private TestQuestionsBank InitializeTest(int questionsCount)
         {
             return new TestQuestionsBank(questionsCount);
         }
 
         private void EnableAndDisableButtons(int questionNo)
         {
-            if (!InputValidator.hasCheckedAnswers(answersGroupBox))
+            if (!InputValidator.HasCheckedAnswers(answersGroupBox))
             {
                 if (1 == questionNo)
                 {
@@ -82,7 +82,7 @@ namespace MultipleChoiceTestsGenerator
             checkBox4.Checked = false;
         }
 
-        private void initializeQuestion(int questionNo)
+        private void InitializeQuestion(int questionNo)
         {
             EnableAndDisableButtons(questionNo);
 
@@ -141,9 +141,8 @@ namespace MultipleChoiceTestsGenerator
 
         private void WriteReport(int grade, double percentage)
         {
-            DateTime now = new DateTime();
-            string filePath = $"{studentName}"
-                + $".txt";
+            DateTime now = DateTime.Now;
+            string filePath = $"{studentName}.txt";
             string reportMessage = $"Test Report - [{now}]:"
                 + $"\n\tStudent Name: {studentName}\n\tTotal Score: {totalScore}/{maxQuestions}"
                 + $"\n\twith percetage {percentage}% of 100% => Grade: {grade}\n";
@@ -159,7 +158,7 @@ namespace MultipleChoiceTestsGenerator
 
             string message = $"Points: {totalScore}/{maxQuestions}\nYour grade is: {grade}";
             DialogResult msgDialog = MessageBox.Show(message, "Test Resukt", MessageBoxButtons.OK);
-            if(msgDialog == DialogResult.OK)
+            if (msgDialog == DialogResult.OK)
             {
                 WriteReport(grade, percentage);
                 Close();
@@ -173,7 +172,11 @@ namespace MultipleChoiceTestsGenerator
             {
                 while (secondsLeft >= 0)
                 {
-                    timelabel.Text = secondsLeft.ToString();
+                    int hours = secondsLeft / 3600;
+                    int minutes = secondsLeft / 60;
+                    int seconds = secondsLeft % 60;
+
+                    timelabel.Text = $"{hours}:{minutes}:{seconds}";
                     secondsLeft--;
                     await Task.Delay(1000, cancellationTokenSource.Token);
                 }
@@ -245,7 +248,7 @@ namespace MultipleChoiceTestsGenerator
         }
 
 
-        public Form1(int questionsCount, int seconds, string studentName)
+        public TestForm(int questionsCount, int seconds, string studentName)
         {
             InitializeComponent();
 
@@ -261,9 +264,9 @@ namespace MultipleChoiceTestsGenerator
             totalScore = 0;
             currentQuestionNo = 1;
             maxQuestions = questionsCount;
-            QuestionsBank = makeTest(maxQuestions);
+            QuestionsBank = InitializeTest(maxQuestions);
 
-            initializeQuestion(currentQuestionNo);
+            InitializeQuestion(currentQuestionNo);
         }
 
         private void submitTestButton_Click(object sender, EventArgs e)
@@ -279,7 +282,7 @@ namespace MultipleChoiceTestsGenerator
         private void prevQuestionButton_Click(object sender, EventArgs e)
         {
             currentQuestionNo--;
-            initializeQuestion(currentQuestionNo);
+            InitializeQuestion(currentQuestionNo);
             submitTestButton.Enabled = false;
 
             foreach (CheckBox answerCheckBox in answersGroupBox.Controls)
@@ -312,7 +315,7 @@ namespace MultipleChoiceTestsGenerator
             }
 
             currentQuestionNo++;
-            initializeQuestion(currentQuestionNo);
+            InitializeQuestion(currentQuestionNo);
 
             foreach (CheckBox answerCheckBox in answersGroupBox.Controls)
             {

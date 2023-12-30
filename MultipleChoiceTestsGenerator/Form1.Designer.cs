@@ -1,6 +1,6 @@
 ﻿namespace MultipleChoiceTestsGenerator
 {
-    partial class Form1
+    partial class TestForm
     {
         /// <summary>
         ///  Required designer variable.
@@ -28,7 +28,6 @@
         /// </summary>
         private void InitializeComponent()
         {
-            testTopicLabel = new Label();
             questionNoLabel = new Label();
             questionTextLabel = new Label();
             firstAnswerRadioBtn = new RadioButton();
@@ -48,15 +47,6 @@
             saveAnswerBtn = new Button();
             answersGroupBox.SuspendLayout();
             SuspendLayout();
-            // 
-            // testTopicLabel
-            // 
-            testTopicLabel.AutoSize = true;
-            testTopicLabel.Location = new Point(12, 24);
-            testTopicLabel.Name = "testTopicLabel";
-            testTopicLabel.Size = new Size(75, 20);
-            testTopicLabel.TabIndex = 0;
-            testTopicLabel.Text = "Test Topic";
             // 
             // questionNoLabel
             // 
@@ -219,7 +209,7 @@
             saveAnswerBtn.UseVisualStyleBackColor = true;
             saveAnswerBtn.Click += saveAnswerBtn_Click;
             // 
-            // Form1
+            // TestForm
             // 
             AutoScaleDimensions = new SizeF(8F, 20F);
             AutoScaleMode = AutoScaleMode.Font;
@@ -233,9 +223,8 @@
             Controls.Add(greetingUserLabel);
             Controls.Add(questionTextLabel);
             Controls.Add(questionNoLabel);
-            Controls.Add(testTopicLabel);
-            Name = "Form1";
-            Text = "Form1";
+            Name = "TestForm";
+            Text = "Test";
             answersGroupBox.ResumeLayout(false);
             answersGroupBox.PerformLayout();
             ResumeLayout(false);
@@ -243,8 +232,6 @@
         }
 
         #endregion
-
-        private Label testTopicLabel;
         private Label questionNoLabel;
         private Label questionTextLabel;
         private RadioButton firstAnswerRadioBtn;

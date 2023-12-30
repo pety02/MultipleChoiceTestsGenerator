@@ -38,7 +38,7 @@ namespace MultipleChoiceTestsGenerator
             }
         }
 
-        public static bool hasCheckedAnswers(GroupBox groupBox)
+        public static bool HasCheckedAnswers(GroupBox groupBox)
         {
             foreach(CheckBox ch in groupBox.Controls)
             {
