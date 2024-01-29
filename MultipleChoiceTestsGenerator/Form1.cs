@@ -1,4 +1,6 @@
 using System.Diagnostics;
+using System.Net.Sockets;
+using System.Text;
 
 namespace MultipleChoiceTestsGenerator
 {
@@ -16,6 +18,12 @@ namespace MultipleChoiceTestsGenerator
         private CancellationTokenSource cancellationTokenSource;
         private int secondsLeft;
         private string studentName;
+
+        private TcpClient tcpClient;
+        NetworkStream stream;
+        private StreamReader reader;
+        private StreamWriter writer;
+        private Thread clientThread;
 
         private TestQuestionsBank InitializeTest(int questionsCount)
         {
@@ -264,9 +272,6 @@ namespace MultipleChoiceTestsGenerator
             totalScore = 0;
             currentQuestionNo = 1;
             maxQuestions = questionsCount;
-            QuestionsBank = InitializeTest(maxQuestions);
-
-            InitializeQuestion(currentQuestionNo);
         }
 
         private void submitTestButton_Click(object sender, EventArgs e)
@@ -404,6 +409,98 @@ namespace MultipleChoiceTestsGenerator
                 {
                     CurrentQuestion.CurrentAnswers[questionIndex] = ctrl.Text;
                     questionIndex++;
+                }
+            }
+        }
+
+        public Label UnmLabl { get { return greetingUserLabel; } }
+
+        private void ConnectToServer()
+        {
+            try
+            {
+                tcpClient = new TcpClient("127.0.0.1", 1234);
+                stream = tcpClient.GetStream();
+                reader = new StreamReader(stream);
+                writer = new StreamWriter(stream);
+            } 
+            catch (Exception ex)
+            {
+                DialogResult result = MessageBox.Show("Cannot connect to the server!");
+                if(result == DialogResult.OK)
+                {
+                    if (this != null)
+                    {
+                        this.Close();
+                        Application.Exit();
+                    }
+                }
+            }
+        }
+
+        private void SendData()
+        {
+            try
+            {
+                // Write data to the server
+                string clientResponse = $"{studentName},{secondsLeft},{maxQuestions}";
+                
+                writer.Write(clientResponse);
+                writer.Flush();
+                //writer.Close();
+                //stream.Flush();
+                //stream.Close();
+            }
+            catch (Exception ex)
+            {
+                // Handle exceptions, e.g., connection closed
+                MessageBox.Show($"Error: {ex.Message}");
+            }
+        }
+
+        private void ReceiveData()
+        {
+            try
+            {
+                while (true)
+                {
+                    // Read data from the server
+                    string serverResponse = reader.ReadLine();
+
+                    // Update the UI with the received data
+                    UpdateUI(serverResponse);
+                }
+            }
+            catch (Exception ex)
+            {
+                // Handle exceptions, e.g., connection closed
+                MessageBox.Show($"Error: {ex.Message}");
+            }
+        }
+
+        private void UpdateUI(string data)
+        {
+            // Check if the UI update needs to be marshaled to the UI thread
+            if (InvokeRequired)
+            {
+                Invoke(new Action(() => UpdateUI(data)));
+            }
+        }
+
+        private void TestForm_Load(object sender, EventArgs e)
+        {
+            try
+            {
+                ConnectToServer();
+                SendData();
+                ReceiveData();
+            } 
+            catch (Exception ex)
+            {
+                if(this != null)
+                {
+                    this.Close();
+                    Application.Exit();
                 }
             }
         }

@@ -13,7 +13,7 @@ namespace MultipleChoiceTestsGenerator
 
         public TestQuestionsBank(int questionsCount)
         {
-            XElement xml = XElement.Load("C:\\Users\\User\\OneDrive\\Documents\\University\\2kurs_3semestur\\C# OOP\\Project\\MultipleChoiceTestsGenerator\\MultipleChoiceTestsGenerator\\Questions.xml");
+            XElement xml = XElement.Load("C:\\Users\\User\\OneDrive\\Documents\\University\\2kurs_3semestur\\C# OOP\\Project\\MultipleChoiceTestsGenerator\\ServerApplication\\Questions.xml");
             var questionList = xml.Elements("Question");
 
             Questions = new TestQuestion[questionsCount];

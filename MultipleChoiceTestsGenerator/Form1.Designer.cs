@@ -225,6 +225,7 @@
             Controls.Add(questionNoLabel);
             Name = "TestForm";
             Text = "Test";
+            Load += TestForm_Load;
             answersGroupBox.ResumeLayout(false);
             answersGroupBox.PerformLayout();
             ResumeLayout(false);

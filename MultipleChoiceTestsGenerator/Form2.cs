@@ -4,6 +4,7 @@ using System.ComponentModel;
 using System.Data;
 using System.Drawing;
 using System.Linq;
+using System.Net.Sockets;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
@@ -26,6 +27,7 @@ namespace MultipleChoiceTestsGenerator
             startTestButton.Enabled = true;
         }
 
+
         private void startTestButton_Click(object sender, EventArgs e)
         {
             int questionsCount = Int32.Parse(questionsCountTextBox.Text);
@@ -33,7 +35,7 @@ namespace MultipleChoiceTestsGenerator
             int seconds = Int32.Parse(timeTextBox.Text);
 
             TestForm testForm = new TestForm(questionsCount, seconds, studentName);
-            testForm.Show();
+            testForm.ShowDialog();
             this.Hide();
         }
 
