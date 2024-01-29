@@ -52,7 +52,7 @@ namespace MultipleChoiceTestsGenerator
             }
             set
             {
-                questions = value != null && value.Length == 30 ? value : new TestQuestion[30];
+                questions = value;
             }
         }
     }

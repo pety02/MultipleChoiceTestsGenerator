@@ -1,4 +1,5 @@
 using System.Diagnostics;
+using System.Net;
 using System.Net.Sockets;
 using System.Text;
 
@@ -19,8 +20,9 @@ namespace MultipleChoiceTestsGenerator
         private int secondsLeft;
         private string studentName;
 
+        private TcpListener l;
         private TcpClient tcpClient;
-        NetworkStream stream;
+        private NetworkStream stream;
         private StreamReader reader;
         private StreamWriter writer;
         private Thread clientThread;
@@ -420,9 +422,6 @@ namespace MultipleChoiceTestsGenerator
             try
             {
                 tcpClient = new TcpClient("127.0.0.1", 1234);
-                stream = tcpClient.GetStream();
-                reader = new StreamReader(stream);
-                writer = new StreamWriter(stream);
             } 
             catch (Exception ex)
             {
@@ -438,8 +437,10 @@ namespace MultipleChoiceTestsGenerator
             }
         }
 
-        private void SendData()
+        private void SendData(TcpClient client)
         {
+            stream = client.GetStream();
+            writer = new StreamWriter(stream);
             try
             {
                 // Write data to the server
@@ -447,9 +448,8 @@ namespace MultipleChoiceTestsGenerator
                 
                 writer.Write(clientResponse);
                 writer.Flush();
+                stream.Flush();
                 //writer.Close();
-                //stream.Flush();
-                //stream.Close();
             }
             catch (Exception ex)
             {
@@ -458,22 +458,25 @@ namespace MultipleChoiceTestsGenerator
             }
         }
 
-        private void ReceiveData()
+        private void ParseQuestions(string data)
+        {
+
+        }
+
+        private void ReceiveData(TcpClient client, string clientData)
         {
             try
             {
-                while (true)
-                {
-                    // Read data from the server
-                    string serverResponse = reader.ReadLine();
-
-                    // Update the UI with the received data
-                    UpdateUI(serverResponse);
-                }
+                stream = client.GetStream();
+                int bytes = 4096;
+                byte[] bytesArr = new byte[bytes];
+                stream.Read(bytesArr, 0, bytes);
+                clientData = Encoding.UTF8.GetString(bytesArr);
+                greetingUserLabel.Text = clientData;
+                ParseQuestions(clientData);
             }
             catch (Exception ex)
             {
-                // Handle exceptions, e.g., connection closed
                 MessageBox.Show($"Error: {ex.Message}");
             }
         }
@@ -492,8 +495,9 @@ namespace MultipleChoiceTestsGenerator
             try
             {
                 ConnectToServer();
-                SendData();
-                ReceiveData();
+                SendData(tcpClient);
+                string clientData = "";
+                ReceiveData(tcpClient, clientData);
             } 
             catch (Exception ex)
             {

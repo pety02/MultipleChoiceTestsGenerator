@@ -13,11 +13,12 @@ namespace MultipleChoiceTestsGenerator
 {
     class Server
     {
-        private TcpListener tcpListener;
         private TestQuestionsBank questionsBank;
-        private string username = "";
-        private int seconds = 0;
-        private int questionsCount = 0;
+        private string username;
+        private int seconds;
+        private int questionsCount;
+
+        private TcpListener tcpListener;
         private TcpClient tcpClient;
         private NetworkStream stream;
         private StreamReader reader;
@@ -25,41 +26,35 @@ namespace MultipleChoiceTestsGenerator
 
         public Server()
         {
-            this.tcpListener = new TcpListener(IPAddress.Any, 1234);  
+            username = "";
+            seconds = 0;
+            questionsCount = 0;
+            questionsBank = new TestQuestionsBank(questionsCount);
         }
 
         public void ListenForClients()
         {
-            this.tcpListener.Start();
-            do
-            {
+                this.tcpListener = new TcpListener(IPAddress.Any, 1234);
+                this.tcpListener.Start();
                 tcpClient = tcpListener.AcceptTcpClient();
-                stream = tcpClient.GetStream();
-                reader = new StreamReader(stream);
-                writer = new StreamWriter(stream);
-
                 ReceiveData(tcpClient);
-            } while (true);
+                this.tcpListener.Stop();
         }
 
-        private string ReadData(object clientObj, string clientData)
+        private string ReadData(TcpClient clientObj, string clientData)
         {
-            TcpClient tcpClient = (TcpClient)clientObj;
-            int bytes = tcpClient.Available;
-
             try
             {
-                NetworkStream networkStream = tcpClient.GetStream();
-
+                stream = clientObj.GetStream();
+                int bytes = clientObj.Available;
                 byte[] bytesArr = new byte[bytes];
-                bytes = stream.Read(bytesArr, 0, bytes);
+                stream.Read(bytesArr, 0, bytes);
                 clientData = Encoding.UTF8.GetString(bytesArr);
-                Console.WriteLine(clientData);
                 return clientData;
             }
-            catch (Exception ex)
+            catch (Exception)
             {
-                Console.WriteLine("Error in reading");
+                Console.WriteLine($"log - {DateTime.Now}: Error in reading");
                 return "";
             }
         }
@@ -68,9 +63,9 @@ namespace MultipleChoiceTestsGenerator
         {
             string receivedDataComponent = "";
             int componenetsCount = 0;
-            for (int i = 0; clientData != null && i < clientData.Length; ++i)
+            bool isLastChar = false;
+            for (int i = 0; i < clientData.Length; ++i)
             {
-
                 if (clientData[i] == ',' && componenetsCount == 0)
                 {
                     username = receivedDataComponent;
@@ -86,6 +81,8 @@ namespace MultipleChoiceTestsGenerator
                 else if ('0' <= clientData[i] && clientData[i] <= '9' && clientData.Length <= i + 1 && componenetsCount == 2)
                 {
                     receivedDataComponent += clientData[i];
+                    isLastChar = true;
+                    break;
                 }
                 else
                 {
@@ -93,26 +90,60 @@ namespace MultipleChoiceTestsGenerator
                 }
             }
 
-            questionsCount = int.Parse(receivedDataComponent);
+            if (isLastChar)
+            {
+                questionsCount = int.Parse(receivedDataComponent);
+            }
         }
 
-        private void ReceiveData(object clientObj)
+        private void ReceiveData(TcpClient clientObj)
         {
-            string clientData = "";
-            clientData = ReadData(clientObj, clientData);
-            ParseClientData(clientData);
+            try { 
+                string clientData = "";
+                clientData = ReadData(clientObj, clientData);
+                ParseClientData(clientData);
 
-            questionsBank = new TestQuestionsBank(questionsCount);
-            SendData(tcpClient, questionsBank);
+                questionsBank = new TestQuestionsBank(questionsCount);
+                SendData(clientObj, questionsBank);
+            } 
+            catch (Exception ex)
+            {
+                Console.WriteLine($"log - {DateTime.Now}: {ex.Message}");
+            }
         }
 
         private void SendData(TcpClient client, TestQuestionsBank questions)
         {
-            NetworkStream clientStream =  client.GetStream();
-            string s = questions.Questions.ToString();
-            byte[] buffer = Encoding.ASCII.GetBytes(questions.Questions.ToString());
-            clientStream.Write(buffer, 0, buffer.Length);
-            clientStream.Flush();
+            try
+            {
+                stream = client.GetStream();
+                writer = new StreamWriter(stream);
+                string serverMessage = "";
+                foreach (var question in questions.Questions)
+                {
+                    serverMessage += question.QuestionText;
+                    serverMessage += "\nPossible Answers\n[\n";
+                    foreach (var possibleAnswer in question.PossibleAnswers)
+                    {
+                        serverMessage += possibleAnswer;
+                        serverMessage += '\n';
+                    }
+                    serverMessage += "]\n Correct Answers\n[\n";
+                    foreach (var correctAnswer in question.CorrectAnswers)
+                    {
+                        serverMessage += correctAnswer;
+                        serverMessage += "\n";
+                    }
+                    serverMessage += "]\n";
+                }
+                writer.Write(serverMessage);
+                writer.Flush();
+                stream.Flush();
+            } 
+            catch (Exception ex)
+            {
+                Console.WriteLine($"log - {DateTime.Now}: {ex.Message}");
+            }
         }
     }
 
@@ -121,6 +152,8 @@ namespace MultipleChoiceTestsGenerator
         static void Main(string[] args)
         {
             Server server = new Server();
+            Console.WriteLine($"Server started on {DateTime.Now}:");
+            Console.WriteLine("Server listening for clients...");
             server.ListenForClients();
         }
     }
