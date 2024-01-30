@@ -13,6 +13,13 @@ namespace MultipleChoiceTestsGenerator
         private string[] correctAnswers;
         private string[] currentAnswers;
 
+        public TestQuestion()
+        {
+            QuestionText = "";
+            PossibleAnswers = new string[4];
+            CorrectAnswers = new string[4];
+            CurrentAnswers = new string[4];
+        }
         public TestQuestion(string questionText, string[] possibleAnswers, string[] correctAnswers)
         {
             QuestionText = questionText;

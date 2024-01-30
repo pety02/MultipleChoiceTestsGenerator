@@ -122,23 +122,25 @@ namespace MultipleChoiceTestsGenerator
                 foreach (var question in questions.Questions)
                 {
                     serverMessage += question.QuestionText;
-                    serverMessage += "\nPossible Answers\n[\n";
+                    serverMessage += "\nPossible Answers\n";
                     foreach (var possibleAnswer in question.PossibleAnswers)
                     {
                         serverMessage += possibleAnswer;
                         serverMessage += '\n';
                     }
-                    serverMessage += "]\n Correct Answers\n[\n";
+                    serverMessage += "Correct Answers\n";
                     foreach (var correctAnswer in question.CorrectAnswers)
                     {
                         serverMessage += correctAnswer;
                         serverMessage += "\n";
                     }
-                    serverMessage += "]\n";
+                    serverMessage += "*\n";
                 }
+                Console.WriteLine(serverMessage);
                 writer.Write(serverMessage);
                 writer.Flush();
-                stream.Flush();
+                //stream.Flush();
+                
             } 
             catch (Exception ex)
             {

@@ -102,7 +102,7 @@ namespace MultipleChoiceTestsGenerator
                 PrevQuestion = QuestionsBank.Questions[questionNo - 2];
             }
 
-            if (questionNo - 1 < QuestionsBank.Questions.Length)
+            if (questionNo - 1 < QuestionsBank.Questions.Length && questionNo < QuestionsBank.Questions.Length)
             {
                 NextQuestion = QuestionsBank.Questions[questionNo];
             }
@@ -261,13 +261,12 @@ namespace MultipleChoiceTestsGenerator
         public TestForm(int questionsCount, int seconds, string studentName)
         {
             InitializeComponent();
-
+            
             countdownTimer = new System.Timers.Timer();
             secondsLeft = seconds;
             countdownTimer.Interval = 1000;
             countdownTimer.Elapsed += CountdownTimer_Tick;
             StartCountdown();
-
             currentAnswersCount = 0;
             this.studentName = studentName;
             greetingUserLabel.Text = "Hello, " + studentName;
@@ -443,24 +442,75 @@ namespace MultipleChoiceTestsGenerator
             writer = new StreamWriter(stream);
             try
             {
-                // Write data to the server
                 string clientResponse = $"{studentName},{secondsLeft},{maxQuestions}";
                 
                 writer.Write(clientResponse);
                 writer.Flush();
                 stream.Flush();
-                //writer.Close();
             }
             catch (Exception ex)
             {
-                // Handle exceptions, e.g., connection closed
                 MessageBox.Show($"Error: {ex.Message}");
             }
         }
 
-        private void ParseQuestions(string data)
+        private TestQuestion[] ParseQuestions(string data)
         {
+            // TODO: to parse questions string in
+            // TestQuestionsBank questions object and
+            // to show them on the screen. To add comments
+            // for documentation.
+            TestQuestion[] questions = new TestQuestion[maxQuestions];
+            string currText = "";
+            bool isCorrectAnswersPart = false, isPossibleAnswersPart = false;
+            for (int i = 0, currQuestionNo = 0, answerIndex = 0; i < data.Length; ++i)
+            {
+                if (data[i] == '\n' && data[i + 1] == 'P')
+                {
+                    questions[currQuestionNo] = new TestQuestion();
+                    questions[currQuestionNo].QuestionText = currText;
+                    currText = "";
+                } 
+                else if (data[i] == '\n' && currText.Equals("Possible Answers"))
+                {
+                    isPossibleAnswersPart = true;
+                    isCorrectAnswersPart = false;
+                    currText = "";
+                }
+                else if (data[i] == '\n' && currText.Equals("Correct Answers"))
+                {
+                    isPossibleAnswersPart = false;
+                    isCorrectAnswersPart = true;
+                    currText = "";
+                    answerIndex = 0;
+                } 
+                else if (data[i] == '\n' && isPossibleAnswersPart && 0 <= answerIndex && answerIndex <= 3)
+                {
+                        questions[currQuestionNo].PossibleAnswers[answerIndex] = currText;
+                        currText = "";
+                        ++answerIndex;
+                }
+                else if (data[i] == '\n' && isCorrectAnswersPart && 0 <= answerIndex && answerIndex <= 3)
+                {
+                    questions[currQuestionNo].CorrectAnswers[answerIndex] = currText;
+                    currText = "";
+                    ++answerIndex;
+                }
+                else if (data[i] == '*' && data[i + 1] == '\n')
+                {
+                    currQuestionNo++;
+                    answerIndex = 0;
+                    currText = "";
+                    isPossibleAnswersPart = false;
+                    isCorrectAnswersPart = false;
+                }
+                else
+                {
+                    currText += data[i];
+                }
+            }
 
+            return questions;
         }
 
         private void ReceiveData(TcpClient client, string clientData)
@@ -468,12 +518,13 @@ namespace MultipleChoiceTestsGenerator
             try
             {
                 stream = client.GetStream();
-                int bytes = 4096;
+                int bytes = 8192;
                 byte[] bytesArr = new byte[bytes];
                 stream.Read(bytesArr, 0, bytes);
                 clientData = Encoding.UTF8.GetString(bytesArr);
-                greetingUserLabel.Text = clientData;
-                ParseQuestions(clientData);
+                TestQuestion[] qs = ParseQuestions(clientData);
+                QuestionsBank = new TestQuestionsBank(qs);
+                InitializeQuestion(currentQuestionNo);
             }
             catch (Exception ex)
             {
@@ -483,7 +534,6 @@ namespace MultipleChoiceTestsGenerator
 
         private void UpdateUI(string data)
         {
-            // Check if the UI update needs to be marshaled to the UI thread
             if (InvokeRequired)
             {
                 Invoke(new Action(() => UpdateUI(data)));
