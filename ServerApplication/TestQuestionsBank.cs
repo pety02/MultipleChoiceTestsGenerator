@@ -3,14 +3,14 @@
 namespace MultipleChoiceTestsGenerator
 {
     /// <summary>
-    /// 
+    /// This class describes a questions bank.
     /// </summary>
     public class TestQuestionsBank
     {
-        private TestQuestion[] questions;   //
+        private TestQuestion[] questions;   // an array of random questions
 
         /// <summary>
-        /// 
+        /// Sets definite questions in the questions array. 
         /// </summary>
         /// <param name="questions"></param>
         public TestQuestionsBank(TestQuestion[] questions)
@@ -19,9 +19,9 @@ namespace MultipleChoiceTestsGenerator
         }
 
         /// <summary>
-        /// 
+        /// Reads definite count random questions from an XML file.
         /// </summary>
-        /// <param name="questionsCount"></param>
+        /// <param name="questionsCount">definite count of random questions</param>
         public TestQuestionsBank(int questionsCount)
         {
             XElement xml = XElement.Load("C:\\Users\\User\\OneDrive\\Documents\\University\\2kurs_3semestur\\C# OOP\\Project\\MultipleChoiceTestsGenerator\\ServerApplication\\Questions.xml");
@@ -58,7 +58,7 @@ namespace MultipleChoiceTestsGenerator
         }
 
         /// <summary>
-        /// 
+        /// Get/Set questions property.
         /// </summary>
         public TestQuestion[] Questions 
         { 

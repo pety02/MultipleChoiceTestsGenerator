@@ -1,14 +1,14 @@
 ﻿namespace MultipleChoiceTestsGenerator
 {
     /// <summary>
-    /// 
+    /// InputValidator class.
     /// </summary>
     public static class InputValidator
     {
         /// <summary>
-        /// 
+        /// Validating the numbers (for e.g. questions count or seconds count).
         /// </summary>
-        /// <param name="input"></param>
+        /// <param name="input"> string input - should contains only digits </param>
         /// <returns></returns>
         public static bool IsValidNumberInput(string input)
         {
@@ -41,10 +41,10 @@
         }
 
         /// <summary>
-        /// 
+        /// Validating that at least one check box of the answers groupBox is checked.
         /// </summary>
-        /// <param name="groupBox"></param>
-        /// <returns></returns>
+        /// <param name="groupBox"> the groupBox of check boxes </param>
+        /// <returns> true if at least one check box is checked and false if is not </returns>
         public static bool HasCheckedAnswers(GroupBox groupBox)
         {
             foreach(CheckBox ch in groupBox.Controls)

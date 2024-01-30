@@ -1,14 +1,17 @@
 ﻿namespace MultipleChoiceTestsGenerator
 {
+    /// <summary>
+    /// This class describes definite test question.
+    /// </summary>
     public class TestQuestion
     {
-        private string questionText;        //
-        private string[] possibleAnswers;   //
-        private string[] correctAnswers;    //
-        private string[] currentAnswers;    //
+        private string questionText;        // text of the question
+        private string[] possibleAnswers;   // array of possible answers - max four
+        private string[] correctAnswers;    // array of correct answers - max four
+        private string[] currentAnswers;    // array of client chosen answers - max four
 
         /// <summary>
-        /// 
+        /// TestQuetion default constructor.
         /// </summary>
         public TestQuestion()
         {
@@ -19,11 +22,11 @@
         }
 
         /// <summary>
-        /// 
+        /// TestQuestion generous purpose constructor.
         /// </summary>
-        /// <param name="questionText"></param>
-        /// <param name="possibleAnswers"></param>
-        /// <param name="correctAnswers"></param>
+        /// <param name="questionText"> text of the question </param>
+        /// <param name="possibleAnswers"> possible answers </param>
+        /// <param name="correctAnswers"> correct answers </param>
         public TestQuestion(string questionText, string[] possibleAnswers, string[] correctAnswers)
         {
             QuestionText = questionText;
@@ -33,7 +36,7 @@
         }
 
         /// <summary>
-        /// 
+        /// Get/Set questionText property.
         /// </summary>
         public string QuestionText 
         { 
@@ -48,7 +51,7 @@
         }
 
         /// <summary>
-        /// 
+        /// Get/Set possibleAnswes property.
         /// </summary>
         public string[] PossibleAnswers 
         { 
@@ -63,7 +66,7 @@
         }
 
         /// <summary>
-        /// 
+        /// Get/Set correctAnswers property.
         /// </summary>
         public string[] CorrectAnswers
         { 
@@ -78,7 +81,7 @@
         }
 
         /// <summary>
-        /// 
+        /// Get/Set currentAnswers property.
         /// </summary>
         public string[] CurrentAnswers
         {

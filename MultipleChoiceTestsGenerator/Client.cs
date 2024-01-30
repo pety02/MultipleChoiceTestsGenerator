@@ -1,20 +1,17 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Net;
-using System.Net.Sockets;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace MultipleChoiceTestsGenerator
+﻿namespace MultipleChoiceTestsGenerator
 {
+    /// <summary>
+    /// Client application starting class
+    /// </summary>
     class Client
-    {
-        private static TestDimensionsForm testDimensionsForm;
-        
+    {   
+        /// <summary>
+        /// Start point of the client application.
+        /// </summary>
+        /// <param name="args"> nothing - only triggers the client application </param>
         static void Main(string[] args)
         {
-            testDimensionsForm = new TestDimensionsForm();
+            TestDimensionsForm testDimensionsForm = new TestDimensionsForm();
             testDimensionsForm.ShowDialog();
         }
     }

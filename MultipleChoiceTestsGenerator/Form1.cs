@@ -4,28 +4,28 @@ using System.Text;
 namespace MultipleChoiceTestsGenerator
 {
     /// <summary>
-    /// 
+    /// This class describes a test form.
     /// </summary>
     public partial class TestForm : Form
     {
-        private TestQuestionsBank questionsBank;                    //
-        private TestQuestion currentQuestion;                       //
-        private TestQuestion prevQuestion;                          //
-        private TestQuestion nextQuestion;                          //
-        private int currentQuestionNo;                              //
-        private int totalScore;                                     //
-        private int maxQuestions;                                   //
-        private int currentAnswersCount;                            //
-        private System.Timers.Timer countdownTimer;                 //
-        private CancellationTokenSource cancellationTokenSource;    //
-        private int secondsLeft;                                    //
-        private string studentName;                                 //
-        private TcpClient tcpClient;                                //
-        private NetworkStream stream;                               //
-        private StreamWriter writer;                                //
+        private TestQuestionsBank questionsBank;                    // bank of all questions
+        private TestQuestion currentQuestion;                       // current question
+        private TestQuestion prevQuestion;                          // previous question
+        private TestQuestion nextQuestion;                          // next question
+        private int currentQuestionNo;                              // number of the current question
+        private int totalScore;                                     // total score till now
+        private int maxQuestions;                                   // max number of questions
+        private int currentAnswersCount;                            // count of the current answers
+        private System.Timers.Timer countdownTimer;                 // timer object
+        private CancellationTokenSource cancellationTokenSource;    // cancelation timer token source
+        private int secondsLeft;                                    // seconds left till end of the try
+        private string studentName;                                 // student name
+        private TcpClient tcpClient;                                // tcp client
+        private NetworkStream stream;                               // stream of messages between client and server
+        private StreamWriter writer;                                // client stream writer
 
         /// <summary>
-        /// 
+        /// Makes connection to the server.
         /// </summary>
         private void ConnectToServer()
         {
@@ -44,7 +44,7 @@ namespace MultipleChoiceTestsGenerator
         }
 
         /// <summary>
-        /// 
+        /// Ends connection with the server.
         /// </summary>
         private void DisconnectFromServer()
         {
@@ -57,10 +57,10 @@ namespace MultipleChoiceTestsGenerator
         }
 
         /// <summary>
-        /// 
+        /// Receives data from the server.
         /// </summary>
-        /// <param name="client"></param>
-        /// <param name="clientData"></param>
+        /// <param name="client"> the tcp client </param>
+        /// <param name="clientData"> received data as a string </param>
         private void ReceiveData(TcpClient client, string clientData)
         {
             try
@@ -85,9 +85,9 @@ namespace MultipleChoiceTestsGenerator
         }
 
         /// <summary>
-        /// 
+        /// Updates the UI of the client application.
         /// </summary>
-        /// <param name="data"></param>
+        /// <param name="data"> recived data from the server </param>
         private void UpdateUI(string data)
         {
             if (InvokeRequired)
@@ -97,9 +97,9 @@ namespace MultipleChoiceTestsGenerator
         }
 
         /// <summary>
-        /// 
+        /// Sends data to the server
         /// </summary>
-        /// <param name="client"></param>
+        /// <param name="client"> client - the server in this situation </param>
         private void SendData(TcpClient client)
         {
             stream = client.GetStream();
@@ -124,7 +124,7 @@ namespace MultipleChoiceTestsGenerator
         }
 
         /// <summary>
-        /// 
+        /// Loads the test form. 
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
@@ -149,9 +149,10 @@ namespace MultipleChoiceTestsGenerator
         }
 
         /// <summary>
-        /// 
+        /// Enables and disables buttons in different situations - 
+        /// on differnt question number.
         /// </summary>
-        /// <param name="questionNo"></param>
+        /// <param name="questionNo"> question number </param>
         private void EnableAndDisableButtons(int questionNo)
         {
             if (!InputValidator.HasCheckedAnswers(answersGroupBox))
@@ -193,7 +194,7 @@ namespace MultipleChoiceTestsGenerator
         }
 
         /// <summary>
-        /// 
+        /// Disables all controls.
         /// </summary>
         private void DisableAllControls()
         {
@@ -208,7 +209,7 @@ namespace MultipleChoiceTestsGenerator
         }
 
         /// <summary>
-        /// 
+        /// Unchecks all check boxes.
         /// </summary>
         private void UncheckCheckBoxes()
         {
@@ -219,7 +220,7 @@ namespace MultipleChoiceTestsGenerator
         }
 
         /// <summary>
-        /// 
+        /// Initialize a question with a definite question number.
         /// </summary>
         /// <param name="questionNo"></param>
         private void InitializeQuestion(int questionNo)
@@ -253,7 +254,7 @@ namespace MultipleChoiceTestsGenerator
         }
 
         /// <summary>
-        /// 
+        /// Evaluates the test after finish it.
         /// </summary>
         /// <param name="percentage"></param>
         /// <returns></returns>
@@ -285,10 +286,10 @@ namespace MultipleChoiceTestsGenerator
         }
 
         /// <summary>
-        /// 
+        /// Writing report in a plain text file after finishing test.
         /// </summary>
-        /// <param name="grade"></param>
-        /// <param name="percentage"></param>
+        /// <param name="grade"> student's current grade </param>
+        /// <param name="percentage"> student's current grade as point percentage </param>
         private void WriteReport(int grade, double percentage)
         {
             DateTime now = DateTime.Now;
@@ -302,7 +303,7 @@ namespace MultipleChoiceTestsGenerator
         }
 
         /// <summary>
-        /// 
+        /// Finishes the test.
         /// </summary>
         private void FinishTest()
         {
@@ -319,7 +320,7 @@ namespace MultipleChoiceTestsGenerator
         }
 
         /// <summary>
-        /// 
+        /// Starts countdown on initializng the test form.
         /// </summary>
         private async void StartCountdown()
         {
@@ -349,7 +350,7 @@ namespace MultipleChoiceTestsGenerator
         }
 
         /// <summary>
-        /// 
+        /// Action on countdownTimer_Tick.
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
@@ -365,7 +366,7 @@ namespace MultipleChoiceTestsGenerator
         }
 
         /// <summary>
-        /// 
+        /// Submits the test after finishing it.
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
@@ -396,7 +397,7 @@ namespace MultipleChoiceTestsGenerator
         }
 
         /// <summary>
-        /// 
+        /// Goes to the previous question.
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
@@ -422,7 +423,7 @@ namespace MultipleChoiceTestsGenerator
         }
 
         /// <summary>
-        /// 
+        /// Goes to the next question.
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
@@ -451,71 +452,62 @@ namespace MultipleChoiceTestsGenerator
         }
 
         /// <summary>
-        /// 
+        /// Marking a definite answer's check box as correct.
+        /// </summary>
+        /// <param name="answer"> definite answer's check box </param>
+        private void MarkAnswer(CheckBox answer)
+        {
+            if (answer.Checked)
+            {
+                currentAnswersCount++;
+                return;
+            }
+
+            currentAnswersCount--;
+        }
+
+        /// <summary>
+        /// Marking the first answer as correct.
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
         private void firstAnswer_CheckedChanged(object sender, EventArgs e)
         {
-            if (firstAnswerCheckBox.Checked)
-            {
-                currentAnswersCount++;
-                return;
-            }
-
-            currentAnswersCount--;
+            MarkAnswer(firstAnswerCheckBox);
         }
 
         /// <summary>
-        /// 
+        /// Marking the second answer as correct.
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
         private void secondAnswer_CheckedChanged(object sender, EventArgs e)
         {
-            if (secondAnswerCheckBox.Checked)
-            {
-                currentAnswersCount++;
-                return;
-            }
-
-            currentAnswersCount--;
+            MarkAnswer(secondAnswerCheckBox);
         }
 
         /// <summary>
-        /// 
+        /// Marking the third answer as correct.
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
         private void thirdAnswer_CheckedChanged(object sender, EventArgs e)
         {
-            if (thirdAnswerCheckBox.Checked)
-            {
-                currentAnswersCount++;
-                return;
-            }
-
-            currentAnswersCount--;
+            MarkAnswer(thirdAnswerCheckBox);
         }
 
         /// <summary>
-        /// 
+        /// Marking the fourth answer as correct.
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
         private void fourthAnswer_CheckedChanged(object sender, EventArgs e)
         {
-            if (fourthAnswerCheckBox.Checked)
-            {
-                currentAnswersCount++;
-                return;
-            }
-
-            currentAnswersCount--;
+            MarkAnswer(fourthAnswerCheckBox);
         }
 
         /// <summary>
-        /// 
+        /// Enables and disables next question button in different scenarious.
         /// </summary>
         private void EnableOrDisableNextQuestionAndSubmitButtons()
         {
@@ -532,7 +524,7 @@ namespace MultipleChoiceTestsGenerator
         }
 
         /// <summary>
-        /// 
+        /// Saves the given answers for a definite question.
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
@@ -551,10 +543,10 @@ namespace MultipleChoiceTestsGenerator
         }
 
         /// <summary>
-        /// 
+        /// Parse questions after reading them as string from the server.
         /// </summary>
-        /// <param name="data"></param>
-        /// <returns></returns>
+        /// <param name="data"> generated from the server questions as string </param>
+        /// <returns> questions as an array of TestQuestion objects </returns>
         private TestQuestion[] ParseQuestions(string data)
         {
             TestQuestion[] questions = new TestQuestion[maxQuestions];
@@ -611,11 +603,11 @@ namespace MultipleChoiceTestsGenerator
         }
 
         /// <summary>
-        /// 
+        /// TestForm class's generous purpose constructor.
         /// </summary>
-        /// <param name="questionsCount"></param>
-        /// <param name="seconds"></param>
-        /// <param name="studentName"></param>
+        /// <param name="questionsCount"> count of the questions </param>
+        /// <param name="seconds"> seconds for solving the test </param>
+        /// <param name="studentName">student's name </param>
         public TestForm(int questionsCount, int seconds, string studentName)
         {
             InitializeComponent();
@@ -634,7 +626,7 @@ namespace MultipleChoiceTestsGenerator
         }
 
         /// <summary>
-        /// 
+        /// Get/Set QuestionBank property.
         /// </summary>
         public TestQuestionsBank QuestionsBank
         {
@@ -649,7 +641,7 @@ namespace MultipleChoiceTestsGenerator
         }
 
         /// <summary>
-        /// 
+        /// Get/Set current question property.
         /// </summary>
         public TestQuestion CurrentQuestion
         {
@@ -664,7 +656,7 @@ namespace MultipleChoiceTestsGenerator
         }
 
         /// <summary>
-        /// 
+        /// Get/Set previuos question  property.
         /// </summary>
         public TestQuestion PrevQuestion
         {
@@ -679,7 +671,7 @@ namespace MultipleChoiceTestsGenerator
         }
 
         /// <summary>
-        /// 
+        /// Get/Set next question property.
         /// </summary>
         public TestQuestion NextQuestion
         {

@@ -1,18 +1,18 @@
 ﻿namespace MultipleChoiceTestsGenerator
 {
     /// <summary>
-    /// 
+    /// FileWriter class for logging students' results.
     /// </summary>
     public class FileWriter
     {
-        private string filePath;    //
-        private string message;     //
+        private string filePath;    // path of the file
+        private string message;     // message to be written in the file
 
         /// <summary>
-        /// 
+        /// Generous purpose FileWriter constructor.
         /// </summary>
-        /// <param name="filePath"></param>
-        /// <param name="message"></param>
+        /// <param name="filePath"> peth of the file </param>
+        /// <param name="message"> message to be written in the file </param>
         public FileWriter(string filePath, string message)
         {
             this.filePath = filePath;
@@ -20,7 +20,7 @@
         }
 
         /// <summary>
-        /// 
+        /// Get filePath property.
         /// </summary>
         public string FilePath 
         { 
@@ -31,7 +31,7 @@
         }
 
         /// <summary>
-        /// 
+        /// Get message property.
         /// </summary>
         public string Message 
         {
@@ -42,7 +42,7 @@
         }
 
         /// <summary>
-        /// 
+        /// Writing the message in the file. 
         /// </summary>
         public void Write()
         {
