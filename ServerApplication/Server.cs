@@ -42,14 +42,13 @@ namespace MultipleChoiceTestsGenerator
         /// <summary>
         /// Asyncronuously listening for server's clients.
         /// </summary>
-        public async Task ListenForClients(TcpListener tcpListener)
+        public async Task ListenForClients()
         {
-            this.tcpListener = new TcpListener(IPAddress.Any, 1234);
-            this.tcpListener.Start();
+            tcpListener = new TcpListener(IPAddress.Any, 1234);
+            tcpListener.Start();
             tcpClient = tcpListener.AcceptTcpClient();
             Console.WriteLine($"{DateTime.Now}: Client connected to the server.");
             await ReceiveData(tcpClient);
-            this.tcpListener.Stop();
         }
 
         /// <summary>
@@ -193,7 +192,7 @@ namespace MultipleChoiceTestsGenerator
             Server server = new Server();
             Console.WriteLine($"{DateTime.Now}: Server started.");
             Console.WriteLine("Server listening for clients...");
-            await server.ListenForClients(server.GetTcpListener());
+            await server.ListenForClients();
         }
     }
 }

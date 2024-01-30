@@ -77,7 +77,7 @@ namespace MultipleChoiceTestsGenerator
             catch (Exception ex)
             {
                 DialogResult result = MessageBox.Show($"Error: {ex.Message}");
-                if(result == DialogResult.OK)
+                if (result == DialogResult.OK)
                 {
                     DisconnectFromServer();
                 }
@@ -383,7 +383,7 @@ namespace MultipleChoiceTestsGenerator
                 {
                     foreach (var currQuestionCurrentnswers in currentQuestion.CurrentAnswers)
                     {
-                        if(currQuestionCorrectAnswers == currQuestionCurrentnswers)
+                        if (currQuestionCorrectAnswers == currQuestionCurrentnswers)
                         {
                             totalScore++;
                             break;

@@ -51,7 +51,7 @@
             // questionNoLabel
             // 
             questionNoLabel.AutoSize = true;
-            questionNoLabel.Location = new Point(12, 80);
+            questionNoLabel.Location = new Point(12, 24);
             questionNoLabel.Name = "questionNoLabel";
             questionNoLabel.Size = new Size(96, 20);
             questionNoLabel.TabIndex = 1;
@@ -60,11 +60,39 @@
             // questionTextLabel
             // 
             questionTextLabel.AutoSize = true;
-            questionTextLabel.Location = new Point(121, 80);
+            questionTextLabel.Location = new Point(146, 24);
             questionTextLabel.Name = "questionTextLabel";
             questionTextLabel.Size = new Size(99, 20);
             questionTextLabel.TabIndex = 2;
             questionTextLabel.Text = "Question Text";
+            // 
+            // firstAnswerRadioBtn
+            // 
+            firstAnswerRadioBtn.Location = new Point(0, 0);
+            firstAnswerRadioBtn.Name = "firstAnswerRadioBtn";
+            firstAnswerRadioBtn.Size = new Size(104, 24);
+            firstAnswerRadioBtn.TabIndex = 0;
+            // 
+            // secondAnswerRadioBtn
+            // 
+            secondAnswerRadioBtn.Location = new Point(0, 0);
+            secondAnswerRadioBtn.Name = "secondAnswerRadioBtn";
+            secondAnswerRadioBtn.Size = new Size(104, 24);
+            secondAnswerRadioBtn.TabIndex = 0;
+            // 
+            // thirdAnswerRadioBtn
+            // 
+            thirdAnswerRadioBtn.Location = new Point(0, 0);
+            thirdAnswerRadioBtn.Name = "thirdAnswerRadioBtn";
+            thirdAnswerRadioBtn.Size = new Size(104, 24);
+            thirdAnswerRadioBtn.TabIndex = 0;
+            // 
+            // fourthAnswerRadioBtn
+            // 
+            fourthAnswerRadioBtn.Location = new Point(0, 0);
+            fourthAnswerRadioBtn.Name = "fourthAnswerRadioBtn";
+            fourthAnswerRadioBtn.Size = new Size(104, 24);
+            fourthAnswerRadioBtn.TabIndex = 0;
             // 
             // greetingUserLabel
             // 
@@ -91,7 +119,7 @@
             answersGroupBox.Controls.Add(thirdAnswerCheckBox);
             answersGroupBox.Controls.Add(secondAnswerCheckBox);
             answersGroupBox.Controls.Add(firstAnswerCheckBox);
-            answersGroupBox.Location = new Point(121, 112);
+            answersGroupBox.Location = new Point(146, 115);
             answersGroupBox.Name = "answersGroupBox";
             answersGroupBox.Size = new Size(185, 206);
             answersGroupBox.TabIndex = 15;
@@ -173,7 +201,7 @@
             // 
             // saveAnswerBtn
             // 
-            saveAnswerBtn.Location = new Point(322, 183);
+            saveAnswerBtn.Location = new Point(351, 183);
             saveAnswerBtn.Name = "saveAnswerBtn";
             saveAnswerBtn.Size = new Size(111, 29);
             saveAnswerBtn.TabIndex = 20;
