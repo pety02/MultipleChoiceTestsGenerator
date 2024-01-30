@@ -1,18 +1,15 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace MultipleChoiceTestsGenerator
+﻿namespace MultipleChoiceTestsGenerator
 {
     public class TestQuestion
     {
-        private string questionText;
-        private string[] possibleAnswers; 
-        private string[] correctAnswers;
-        private string[] currentAnswers;
+        private string questionText;        //
+        private string[] possibleAnswers;   //
+        private string[] correctAnswers;    //
+        private string[] currentAnswers;    //
 
+        /// <summary>
+        /// 
+        /// </summary>
         public TestQuestion()
         {
             QuestionText = "";
@@ -20,6 +17,13 @@ namespace MultipleChoiceTestsGenerator
             CorrectAnswers = new string[4];
             CurrentAnswers = new string[4];
         }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="questionText"></param>
+        /// <param name="possibleAnswers"></param>
+        /// <param name="correctAnswers"></param>
         public TestQuestion(string questionText, string[] possibleAnswers, string[] correctAnswers)
         {
             QuestionText = questionText;
@@ -28,6 +32,9 @@ namespace MultipleChoiceTestsGenerator
             CurrentAnswers = new string[possibleAnswers.Length];
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
         public string QuestionText 
         { 
             get
@@ -39,6 +46,10 @@ namespace MultipleChoiceTestsGenerator
                 questionText = !String.IsNullOrEmpty(value) ? value : "";
             }
         }
+
+        /// <summary>
+        /// 
+        /// </summary>
         public string[] PossibleAnswers 
         { 
             get
@@ -50,6 +61,10 @@ namespace MultipleChoiceTestsGenerator
                 possibleAnswers = value != null && value.Length == 4 ? value : new string[4]; 
             }
         }
+
+        /// <summary>
+        /// 
+        /// </summary>
         public string[] CorrectAnswers
         { 
             get
@@ -62,6 +77,9 @@ namespace MultipleChoiceTestsGenerator
             }
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
         public string[] CurrentAnswers
         {
             get

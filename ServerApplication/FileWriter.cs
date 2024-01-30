@@ -1,22 +1,27 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace MultipleChoiceTestsGenerator
+﻿namespace MultipleChoiceTestsGenerator
 {
+    /// <summary>
+    /// 
+    /// </summary>
     public class FileWriter
     {
-        private string filePath;
-        private string message;
+        private string filePath;    //
+        private string message;     //
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="filePath"></param>
+        /// <param name="message"></param>
         public FileWriter(string filePath, string message)
         {
             this.filePath = filePath;
             this.message = message;
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
         public string FilePath 
         { 
             get
@@ -24,6 +29,10 @@ namespace MultipleChoiceTestsGenerator
                 return filePath;
             }
         }
+
+        /// <summary>
+        /// 
+        /// </summary>
         public string Message 
         {
             get
@@ -32,11 +41,14 @@ namespace MultipleChoiceTestsGenerator
             }
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
         public void Write()
         {
             try
             {
-                using (StreamWriter writer = new StreamWriter(filePath))
+                using (StreamWriter writer = new StreamWriter(FilePath))
                 {
                     writer.WriteLine(message);
                 }

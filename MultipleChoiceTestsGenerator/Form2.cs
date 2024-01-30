@@ -1,18 +1,13 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Linq;
-using System.Net.Sockets;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows.Forms;
-
-namespace MultipleChoiceTestsGenerator
+﻿namespace MultipleChoiceTestsGenerator
 {
+    /// <summary>
+    /// 
+    /// </summary>
     public partial class TestDimensionsForm : Form
     {
+        /// <summary>
+        /// 
+        /// </summary>
         public TestDimensionsForm()
         {
             InitializeComponent();
@@ -27,18 +22,27 @@ namespace MultipleChoiceTestsGenerator
             startTestButton.Enabled = true;
         }
 
-
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void startTestButton_Click(object sender, EventArgs e)
         {
             int questionsCount = Int32.Parse(questionsCountTextBox.Text);
             string studentName = studentNameTextBox.Text;
             int seconds = Int32.Parse(timeTextBox.Text);
 
+            this.Hide();
             TestForm testForm = new TestForm(questionsCount, seconds, studentName);
             testForm.ShowDialog();
-            this.Hide();
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void studentNameTextBox_TextChanged(object sender, EventArgs e)
         {
             if (!InputValidator.IsValidNumberInput(questionsCountTextBox.Text)
@@ -52,6 +56,11 @@ namespace MultipleChoiceTestsGenerator
             startTestButton.Enabled = true;
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void timeTextBox_TextChanged(object sender, EventArgs e)
         {
             if (!InputValidator.IsValidNumberInput(questionsCountTextBox.Text)
@@ -65,6 +74,11 @@ namespace MultipleChoiceTestsGenerator
             startTestButton.Enabled = true;
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void questionsCountTextBox_TextChanged(object sender, EventArgs e)
         {
             if (!InputValidator.IsValidNumberInput(questionsCountTextBox.Text)

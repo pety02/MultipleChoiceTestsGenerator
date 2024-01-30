@@ -1,13 +1,15 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace MultipleChoiceTestsGenerator
+﻿namespace MultipleChoiceTestsGenerator
 {
+    /// <summary>
+    /// 
+    /// </summary>
     public static class InputValidator
     {
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="input"></param>
+        /// <returns></returns>
         public static bool IsValidNumberInput(string input)
         {
             if(string.IsNullOrWhiteSpace(input))
@@ -38,6 +40,11 @@ namespace MultipleChoiceTestsGenerator
             }
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="groupBox"></param>
+        /// <returns></returns>
         public static bool HasCheckedAnswers(GroupBox groupBox)
         {
             foreach(CheckBox ch in groupBox.Controls)

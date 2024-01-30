@@ -1,20 +1,27 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Xml.Linq;
+﻿using System.Xml.Linq;
 
 namespace MultipleChoiceTestsGenerator
 {
+    /// <summary>
+    /// 
+    /// </summary>
     public class TestQuestionsBank
     {
-        private TestQuestion[] questions;
+        private TestQuestion[] questions;   //
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="questions"></param>
         public TestQuestionsBank(TestQuestion[] questions)
         {
             Questions = questions;
         }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="questionsCount"></param>
         public TestQuestionsBank(int questionsCount)
         {
             XElement xml = XElement.Load("C:\\Users\\User\\OneDrive\\Documents\\University\\2kurs_3semestur\\C# OOP\\Project\\MultipleChoiceTestsGenerator\\ServerApplication\\Questions.xml");
@@ -30,7 +37,9 @@ namespace MultipleChoiceTestsGenerator
                 int r = random.Next(0, 29);
                 var question = questionList.ElementAt(r);
 
-                string questionText = question.Element("QuestionText").Value;
+                string questionText = question
+                    .Element("QuestionText")
+                    .Value;
                 string[] possibleAnswers = question
                     .Element("PossibleAnswers")
                     .Elements("Answer")
@@ -48,6 +57,9 @@ namespace MultipleChoiceTestsGenerator
             }
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
         public TestQuestion[] Questions 
         { 
             get

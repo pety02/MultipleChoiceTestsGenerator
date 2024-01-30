@@ -37,10 +37,10 @@
             greetingUserLabel = new Label();
             submitTestButton = new Button();
             answersGroupBox = new GroupBox();
-            checkBox4 = new CheckBox();
-            checkBox3 = new CheckBox();
-            checkBox2 = new CheckBox();
-            checkBox1 = new CheckBox();
+            fourthAnswerCheckBox = new CheckBox();
+            thirdAnswerCheckBox = new CheckBox();
+            secondAnswerCheckBox = new CheckBox();
+            firstAnswerCheckBox = new CheckBox();
             nextQuestionButton = new Button();
             prevQuestionButton = new Button();
             timelabel = new Label();
@@ -66,34 +66,6 @@
             questionTextLabel.TabIndex = 2;
             questionTextLabel.Text = "Question Text";
             // 
-            // firstAnswerRadioBtn
-            // 
-            firstAnswerRadioBtn.Location = new Point(0, 0);
-            firstAnswerRadioBtn.Name = "firstAnswerRadioBtn";
-            firstAnswerRadioBtn.Size = new Size(104, 24);
-            firstAnswerRadioBtn.TabIndex = 0;
-            // 
-            // secondAnswerRadioBtn
-            // 
-            secondAnswerRadioBtn.Location = new Point(0, 0);
-            secondAnswerRadioBtn.Name = "secondAnswerRadioBtn";
-            secondAnswerRadioBtn.Size = new Size(104, 24);
-            secondAnswerRadioBtn.TabIndex = 0;
-            // 
-            // thirdAnswerRadioBtn
-            // 
-            thirdAnswerRadioBtn.Location = new Point(0, 0);
-            thirdAnswerRadioBtn.Name = "thirdAnswerRadioBtn";
-            thirdAnswerRadioBtn.Size = new Size(104, 24);
-            thirdAnswerRadioBtn.TabIndex = 0;
-            // 
-            // fourthAnswerRadioBtn
-            // 
-            fourthAnswerRadioBtn.Location = new Point(0, 0);
-            fourthAnswerRadioBtn.Name = "fourthAnswerRadioBtn";
-            fourthAnswerRadioBtn.Size = new Size(104, 24);
-            fourthAnswerRadioBtn.TabIndex = 0;
-            // 
             // greetingUserLabel
             // 
             greetingUserLabel.AutoSize = true;
@@ -115,10 +87,10 @@
             // 
             // answersGroupBox
             // 
-            answersGroupBox.Controls.Add(checkBox4);
-            answersGroupBox.Controls.Add(checkBox3);
-            answersGroupBox.Controls.Add(checkBox2);
-            answersGroupBox.Controls.Add(checkBox1);
+            answersGroupBox.Controls.Add(fourthAnswerCheckBox);
+            answersGroupBox.Controls.Add(thirdAnswerCheckBox);
+            answersGroupBox.Controls.Add(secondAnswerCheckBox);
+            answersGroupBox.Controls.Add(firstAnswerCheckBox);
             answersGroupBox.Location = new Point(121, 112);
             answersGroupBox.Name = "answersGroupBox";
             answersGroupBox.Size = new Size(185, 206);
@@ -126,49 +98,49 @@
             answersGroupBox.TabStop = false;
             answersGroupBox.Text = "Answers";
             // 
-            // checkBox4
+            // fourthAnswerCheckBox
             // 
-            checkBox4.AutoSize = true;
-            checkBox4.Location = new Point(6, 154);
-            checkBox4.Name = "checkBox4";
-            checkBox4.Size = new Size(101, 24);
-            checkBox4.TabIndex = 14;
-            checkBox4.Text = "checkBox4";
-            checkBox4.UseVisualStyleBackColor = true;
-            checkBox4.CheckedChanged += checkBox4_CheckedChanged;
+            fourthAnswerCheckBox.AutoSize = true;
+            fourthAnswerCheckBox.Location = new Point(6, 154);
+            fourthAnswerCheckBox.Name = "fourthAnswerCheckBox";
+            fourthAnswerCheckBox.Size = new Size(101, 24);
+            fourthAnswerCheckBox.TabIndex = 14;
+            fourthAnswerCheckBox.Text = "checkBox4";
+            fourthAnswerCheckBox.UseVisualStyleBackColor = true;
+            fourthAnswerCheckBox.CheckedChanged += fourthAnswer_CheckedChanged;
             // 
-            // checkBox3
+            // thirdAnswerCheckBox
             // 
-            checkBox3.AutoSize = true;
-            checkBox3.Location = new Point(6, 115);
-            checkBox3.Name = "checkBox3";
-            checkBox3.Size = new Size(101, 24);
-            checkBox3.TabIndex = 13;
-            checkBox3.Text = "checkBox3";
-            checkBox3.UseVisualStyleBackColor = true;
-            checkBox3.CheckedChanged += checkBox3_CheckedChanged;
+            thirdAnswerCheckBox.AutoSize = true;
+            thirdAnswerCheckBox.Location = new Point(6, 115);
+            thirdAnswerCheckBox.Name = "thirdAnswerCheckBox";
+            thirdAnswerCheckBox.Size = new Size(101, 24);
+            thirdAnswerCheckBox.TabIndex = 13;
+            thirdAnswerCheckBox.Text = "checkBox3";
+            thirdAnswerCheckBox.UseVisualStyleBackColor = true;
+            thirdAnswerCheckBox.CheckedChanged += thirdAnswer_CheckedChanged;
             // 
-            // checkBox2
+            // secondAnswerCheckBox
             // 
-            checkBox2.AutoSize = true;
-            checkBox2.Location = new Point(6, 76);
-            checkBox2.Name = "checkBox2";
-            checkBox2.Size = new Size(101, 24);
-            checkBox2.TabIndex = 12;
-            checkBox2.Text = "checkBox2";
-            checkBox2.UseVisualStyleBackColor = true;
-            checkBox2.CheckedChanged += checkBox2_CheckedChanged;
+            secondAnswerCheckBox.AutoSize = true;
+            secondAnswerCheckBox.Location = new Point(6, 76);
+            secondAnswerCheckBox.Name = "secondAnswerCheckBox";
+            secondAnswerCheckBox.Size = new Size(101, 24);
+            secondAnswerCheckBox.TabIndex = 12;
+            secondAnswerCheckBox.Text = "checkBox2";
+            secondAnswerCheckBox.UseVisualStyleBackColor = true;
+            secondAnswerCheckBox.CheckedChanged += secondAnswer_CheckedChanged;
             // 
-            // checkBox1
+            // firstAnswerCheckBox
             // 
-            checkBox1.AutoSize = true;
-            checkBox1.Location = new Point(6, 37);
-            checkBox1.Name = "checkBox1";
-            checkBox1.Size = new Size(101, 24);
-            checkBox1.TabIndex = 11;
-            checkBox1.Text = "checkBox1";
-            checkBox1.UseVisualStyleBackColor = true;
-            checkBox1.CheckedChanged += checkBox1_CheckedChanged;
+            firstAnswerCheckBox.AutoSize = true;
+            firstAnswerCheckBox.Location = new Point(6, 37);
+            firstAnswerCheckBox.Name = "firstAnswerCheckBox";
+            firstAnswerCheckBox.Size = new Size(101, 24);
+            firstAnswerCheckBox.TabIndex = 11;
+            firstAnswerCheckBox.Text = "checkBox1";
+            firstAnswerCheckBox.UseVisualStyleBackColor = true;
+            firstAnswerCheckBox.CheckedChanged += firstAnswer_CheckedChanged;
             // 
             // nextQuestionButton
             // 
@@ -245,10 +217,10 @@
         private Button nextQuestionButton;
         private Button prevQuestionButton;
         private Label timelabel;
-        private CheckBox checkBox4;
-        private CheckBox checkBox3;
-        private CheckBox checkBox2;
-        private CheckBox checkBox1;
+        private CheckBox fourthAnswerCheckBox;
+        private CheckBox thirdAnswerCheckBox;
+        private CheckBox secondAnswerCheckBox;
+        private CheckBox firstAnswerCheckBox;
         private Button saveAnswerBtn;
     }
 }

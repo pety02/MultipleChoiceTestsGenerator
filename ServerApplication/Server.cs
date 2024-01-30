@@ -1,29 +1,27 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Net.Sockets;
+﻿using System.Net.Sockets;
 using System.Net;
 using System.Text;
-using System.Threading.Tasks;
-using System.IO;
-using System.Net.Http;
-using System.Collections;
 
 namespace MultipleChoiceTestsGenerator
 {
+    /// <summary>
+    /// 
+    /// </summary>
     class Server
     {
-        private TestQuestionsBank questionsBank;
-        private string username;
-        private int seconds;
-        private int questionsCount;
+        private TestQuestionsBank questionsBank;    //
+        private string username;                    //
+        private int seconds;                        //
+        private int questionsCount;                 //
+        private TcpListener tcpListener;            //
+        private TcpClient tcpClient;                //
+        private NetworkStream stream;               //
+        private StreamReader reader;                //
+        private StreamWriter writer;                //
 
-        private TcpListener tcpListener;
-        private TcpClient tcpClient;
-        private NetworkStream stream;
-        private StreamReader reader;
-        private StreamWriter writer;
-
+        /// <summary>
+        /// 
+        /// </summary>
         public Server()
         {
             username = "";
@@ -32,15 +30,25 @@ namespace MultipleChoiceTestsGenerator
             questionsBank = new TestQuestionsBank(questionsCount);
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
         public void ListenForClients()
         {
-                this.tcpListener = new TcpListener(IPAddress.Any, 1234);
-                this.tcpListener.Start();
-                tcpClient = tcpListener.AcceptTcpClient();
-                ReceiveData(tcpClient);
-                this.tcpListener.Stop();
+            this.tcpListener = new TcpListener(IPAddress.Any, 1234);
+            this.tcpListener.Start();
+            tcpClient = tcpListener.AcceptTcpClient();
+            Console.WriteLine($"{DateTime.Now}: Client connected to the server.");
+            ReceiveData(tcpClient);
+            this.tcpListener.Stop();
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="clientObj"></param>
+        /// <param name="clientData"></param>
+        /// <returns></returns>
         private string ReadData(TcpClient clientObj, string clientData)
         {
             try
@@ -59,6 +67,10 @@ namespace MultipleChoiceTestsGenerator
             }
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="clientData"></param>
         private void ParseClientData(string clientData)
         {
             string receivedDataComponent = "";
@@ -96,6 +108,10 @@ namespace MultipleChoiceTestsGenerator
             }
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="clientObj"></param>
         private void ReceiveData(TcpClient clientObj)
         {
             try { 
@@ -112,6 +128,11 @@ namespace MultipleChoiceTestsGenerator
             }
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="client"></param>
+        /// <param name="questions"></param>
         private void SendData(TcpClient client, TestQuestionsBank questions)
         {
             try
@@ -136,11 +157,8 @@ namespace MultipleChoiceTestsGenerator
                     }
                     serverMessage += "*\n";
                 }
-                Console.WriteLine(serverMessage);
                 writer.Write(serverMessage);
                 writer.Flush();
-                //stream.Flush();
-                
             } 
             catch (Exception ex)
             {
@@ -149,12 +167,15 @@ namespace MultipleChoiceTestsGenerator
         }
     }
 
+    /// <summary>
+    /// 
+    /// </summary>
     class Program
     {
         static void Main(string[] args)
         {
             Server server = new Server();
-            Console.WriteLine($"Server started on {DateTime.Now}:");
+            Console.WriteLine($"{DateTime.Now}: Server started.");
             Console.WriteLine("Server listening for clients...");
             server.ListenForClients();
         }
