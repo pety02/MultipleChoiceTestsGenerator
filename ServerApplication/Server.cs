@@ -8,7 +8,7 @@ namespace MultipleChoiceTestsGenerator
     /// <summary>
     /// This class describes a multithread server with TcpListener and TcpClient.
     /// </summary>
-    class Server
+    public class Server
     {
         private TestQuestionsBank questionsBank;    // bank of random test questions
         private string username;                    // username of the student
@@ -18,71 +18,6 @@ namespace MultipleChoiceTestsGenerator
         private TcpClient tcpClient;                // tcp client
         private NetworkStream stream;               // stream of messages
         private StreamWriter writer;                // server stream writer
-
-        /// <summary>
-        /// Server default constructor.
-        /// </summary>
-        public Server()
-        {
-            username = "";
-            seconds = 0;
-            questionsCount = 0;
-            questionsBank = new TestQuestionsBank(questionsCount);
-        }
-
-        /// <summary>
-        /// Get methods for getting the tcp listener.
-        /// </summary>
-        /// <returns> current tcp listener </returns>
-        public TcpListener GetTcpListener()
-        {
-            return tcpListener;
-        }
-
-        /// <summary>
-        /// Asyncronuously listening for server's clients.
-        /// </summary>
-        public async Task ListenForClients()
-        {
-            tcpListener = new TcpListener(IPAddress.Any, 1234);
-            tcpListener.Start();
-            while (true)
-            {
-                tcpClient = await tcpListener.AcceptTcpClientAsync();
-                Console.WriteLine($"{DateTime.Now}: Client connected to the server.");
-                await ReceiveData(tcpClient);
-            }
-        }
-
-        /// <summary>
-        /// Asynchronuous seading data from the client.
-        /// </summary>
-        /// <param name="clientObj"> client object </param>
-        /// <param name="clientData"> client message's data </param>
-        /// <returns></returns>
-        private async Task<string> ReadDataAsync(TcpClient clientObj,
-                                      string clientData)
-        {
-            try
-            {
-                byte[] buffer = new byte[8192];
-                stream = clientObj.GetStream();
-                int bytes;
-                do
-                {
-                    bytes = await stream.ReadAsync(buffer, 0, buffer.Length);
-                    clientData = Encoding.UTF8.GetString(buffer, 0, bytes);
-                    byte[] responseData = Encoding.UTF8.GetBytes(clientData);
-                    await stream.WriteAsync(responseData, 0, responseData.Length);
-                } while (bytes == 0);
-            }
-            catch (Exception)
-            {
-                await Console.Out.WriteLineAsync($"log - {DateTime.Now}: Error in reading");
-            }
-
-            return clientData;
-        }
 
         /// <summary>
         /// Parsing client data like username, time 
@@ -127,10 +62,82 @@ namespace MultipleChoiceTestsGenerator
         }
 
         /// <summary>
+        /// Server default constructor.
+        /// </summary>
+        public Server()
+        {
+            username = "";
+            seconds = 0;
+            questionsCount = 0;
+            questionsBank = new TestQuestionsBank(questionsCount);
+        }
+
+        /// <summary>
+        /// Get methods for getting the tcp listener.
+        /// </summary>
+        /// <returns> current tcp listener </returns>
+        public TcpListener GetTcpListener()
+        {
+            return tcpListener;
+        }
+
+        /// <summary>
+        /// Asyncronuously listening for server's clients.
+        /// </summary>
+        public async Task ListenForClients()
+        {
+            try
+            {
+                tcpListener = new TcpListener(IPAddress.Any, 1234);
+                tcpListener.Start();
+                while (true)
+                {
+                    tcpClient = await tcpListener.AcceptTcpClientAsync();
+                    Console.WriteLine($"{DateTime.Now}: Client connected to the server.");
+                    await ReceiveData(tcpClient);
+                }
+            } 
+            catch (Exception ex)
+            {
+                await Console.Out.WriteLineAsync($"{DateTime.Now}:{ex.Message}");
+            }
+        }
+
+        /// <summary>
+        /// Asynchronuous seading data from the client.
+        /// </summary>
+        /// <param name="clientObj"> client object </param>
+        /// <param name="clientData"> client message's data </param>
+        /// <returns></returns>
+        public async Task<string> ReadDataAsync(TcpClient clientObj,
+                                      string clientData)
+        {
+            try
+            {
+                byte[] buffer = new byte[8192];
+                stream = clientObj.GetStream();
+                int bytes;
+                do
+                {
+                    bytes = await stream.ReadAsync(buffer, 0, buffer.Length);
+                    clientData = Encoding.UTF8.GetString(buffer, 0, bytes);
+                    byte[] responseData = Encoding.UTF8.GetBytes(clientData);
+                    await stream.WriteAsync(responseData, 0, responseData.Length);
+                } while (bytes == 0);
+            }
+            catch (Exception)
+            {
+                await Console.Out.WriteLineAsync($"log - {DateTime.Now}: Error in reading");
+            }
+
+            return clientData;
+        }
+
+        /// <summary>
         /// Asyncronuously receiving data from TcpClient.
         /// </summary>
         /// <param name="clientObj"> tcpClient object </param>
-        private async Task ReceiveData(TcpClient clientObj)
+        public async Task ReceiveData(TcpClient clientObj)
         {
             try { 
                 string clientData = "";
@@ -151,7 +158,7 @@ namespace MultipleChoiceTestsGenerator
         /// </summary>
         /// <param name="client"> Client - receiver of the test questions bank </param>
         /// <param name="questions"> test questions bank </param>
-        private async Task SendData(TcpClient client, TestQuestionsBank questions)
+        public async Task SendData(TcpClient client, TestQuestionsBank questions)
         {
             try
             {

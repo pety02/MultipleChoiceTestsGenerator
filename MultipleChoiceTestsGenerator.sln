@@ -7,6 +7,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MultipleChoiceTestsGenerato
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ServerApplication", "ServerApplication\ServerApplication.csproj", "{FD8E4A86-8347-437D-8283-5BA68737E1CC}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ServerApplicationTests", "ServerApplicationTests\ServerApplicationTests.csproj", "{558600D4-BB16-43BF-BEA3-53543B8EDA53}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -21,6 +23,10 @@ Global
 		{FD8E4A86-8347-437D-8283-5BA68737E1CC}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{FD8E4A86-8347-437D-8283-5BA68737E1CC}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{FD8E4A86-8347-437D-8283-5BA68737E1CC}.Release|Any CPU.Build.0 = Release|Any CPU
+		{558600D4-BB16-43BF-BEA3-53543B8EDA53}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{558600D4-BB16-43BF-BEA3-53543B8EDA53}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{558600D4-BB16-43BF-BEA3-53543B8EDA53}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{558600D4-BB16-43BF-BEA3-53543B8EDA53}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

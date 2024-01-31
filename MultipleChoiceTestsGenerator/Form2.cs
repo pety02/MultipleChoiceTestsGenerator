@@ -76,6 +76,11 @@
             startTestButton.Enabled = true;
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void customQuestionsCountField_TextChanged(object sender, EventArgs e)
         {
             if (!InputValidator.IsValidNumberInput(customQuestionsCountField.Text))
@@ -87,6 +92,10 @@
             startTestButton.Enabled = true;
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="fieldValue"></param>
         private void CheckForNonEmptyTextFields(string fieldValue)
         {
             if (fieldValue.Equals(String.Empty))
@@ -100,31 +109,59 @@
             addCustomQuestionButton.Enabled = true;
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void customQuestionNameField_TextChanged(object sender, EventArgs e)
         {
             CheckForNonEmptyTextFields(customQuestionTextField.Text);
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void firstAnswerTextField_TextChanged(object sender, EventArgs e)
         {
             CheckForNonEmptyTextFields(firstAnswerTextField.Text);
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void secondAnswerTextField_TextChanged(object sender, EventArgs e)
         {
             CheckForNonEmptyTextFields(secondAnswerTextField.Text);
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void thirdAnswerTextField_TextChanged(object sender, EventArgs e)
         {
             CheckForNonEmptyTextFields(thirdAnswerTextField.Text);
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void fourthAnswerTextField_TextChanged(object sender, EventArgs e)
         {
             CheckForNonEmptyTextFields(fourthAnswerTextField.Text);
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
         private void CheckForCustomCorrectAnswers()
         {
             if (!isFirstAnswerCorrectCheckBox.Checked
@@ -141,26 +178,51 @@
             addCustomQuestionButton.Enabled = true;
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void isFirstAnswerCorrectCheckBox_CheckedChanged(object sender, EventArgs e)
         {
             CheckForCustomCorrectAnswers();
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void isSecondAnswerCorrectCheckBox_CheckedChanged(object sender, EventArgs e)
         {
             CheckForCustomCorrectAnswers();
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void isThirdAnswerCorrectCheckBox_CheckedChanged(object sender, EventArgs e)
         {
             CheckForCustomCorrectAnswers();
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void isFourthAnswerCorrectCheckBox_CheckedChanged(object sender, EventArgs e)
         {
             CheckForCustomCorrectAnswers();
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void createCustomQuestionsArrayButton_Click(object sender, EventArgs e)
         {
             if (!InputValidator.IsValidNumberInput(customQuestionsCountField.Text))
@@ -177,6 +239,12 @@
                 $" So add your custom questions to your test before start solving it.");
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="index"></param>
+        /// <returns></returns>
+        /// <exception cref="Exception"></exception>
         private string GetCurrentAnswer(int index)
         {
             switch (index)
@@ -189,6 +257,11 @@
             }
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="index"></param>
+        /// <returns></returns>
         private bool IsCorrectAnswer(int index)
         {
             switch (index)
@@ -201,6 +274,9 @@
             }
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
         private void ConstructCustomQuestion()
         {
             string questionText = customQuestionTextField.Text;
@@ -219,6 +295,9 @@
                 possibleAnswers, correctAnswers);
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
         private void ClearCustomQuestionPanel()
         {
             customQuestionTextField.Text = "";
@@ -232,6 +311,11 @@
             isFourthAnswerCorrectCheckBox.Checked = false;
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void addCustomQuestionButton_Click(object sender, EventArgs e)
         {
             ConstructCustomQuestion();

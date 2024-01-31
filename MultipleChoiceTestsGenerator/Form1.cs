@@ -130,6 +130,12 @@ namespace MultipleChoiceTestsGenerator
             return questions;
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="readed"></param>
+        /// <param name="custom"></param>
+        /// <returns></returns>
         private TestQuestion[] JoinTestQuestions(TestQuestion[] readed, TestQuestion[] custom)
         {
             int length = readed.Length + custom.Length;
@@ -170,9 +176,16 @@ namespace MultipleChoiceTestsGenerator
 
                 clientData = Encoding.UTF8.GetString(buffer);
                 TestQuestion[] qs = ParseQuestions(clientData);
-                TestQuestion[] allQuestions = JoinTestQuestions(qs, customQs);
-                QuestionsBank = new TestQuestionsBank(allQuestions);
-                maxQuestions = allQuestions.Length;
+                if (customQs != null)
+                {
+                    TestQuestion[] allQuestions = JoinTestQuestions(qs, customQs);
+                    maxQuestions = allQuestions.Length;
+                    QuestionsBank = new TestQuestionsBank(allQuestions);
+                } 
+                else
+                {
+                    QuestionsBank = new TestQuestionsBank(qs);
+                }
                 InitializeQuestion(currentQuestionNo);
             }
             catch (Exception ex)
