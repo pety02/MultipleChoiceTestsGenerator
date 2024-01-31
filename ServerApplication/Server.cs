@@ -136,7 +136,6 @@ namespace MultipleChoiceTestsGenerator
                 string clientData = "";
                 clientData = await ReadDataAsync(clientObj, clientData);
                 ParseClientData(clientData);
-                await Console.Out.WriteLineAsync("data: " + clientData);
 
                 questionsBank = new TestQuestionsBank(questionsCount);
                 await SendData(clientObj, questionsBank);

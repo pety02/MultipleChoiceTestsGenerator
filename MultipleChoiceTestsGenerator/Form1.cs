@@ -11,6 +11,7 @@ namespace MultipleChoiceTestsGenerator
     public partial class TestForm : Form
     {
         private TestQuestionsBank questionsBank;                    // bank of all questions
+        private TestQuestion[] customQs;
         private TestQuestion currentQuestion;                       // current question
         private TestQuestion prevQuestion;                          // previous question
         private TestQuestion nextQuestion;                          // next question
@@ -129,6 +130,25 @@ namespace MultipleChoiceTestsGenerator
             return questions;
         }
 
+        private TestQuestion[] JoinTestQuestions(TestQuestion[] readed, TestQuestion[] custom)
+        {
+            int length = readed.Length + custom.Length;
+            TestQuestion[] allQuestions = new TestQuestion[length];
+
+            int readedLength = readed.Length;
+            for (int i = 0; i < readedLength; ++i)
+            {
+                allQuestions[i] = readed[i];
+            }
+            
+            for(int i = readedLength; i < length; ++i)
+            {
+                allQuestions[i] = custom[i - readedLength]; 
+            }
+
+            return allQuestions;
+        }
+
         /// <summary>
         /// Receives data from the server.
         /// </summary>
@@ -143,15 +163,17 @@ namespace MultipleChoiceTestsGenerator
                     await ConnectToServer();
                 }
                 
-                    byte[] buffer = new byte[8192];
-                    stream = tcpClient.GetStream();
-                    int bytesRead = await stream.ReadAsync(buffer, 0, buffer.Length);
-                    string response = Encoding.UTF8.GetString(buffer, 0, bytesRead);
+                byte[] buffer = new byte[8192];
+                stream = tcpClient.GetStream();
+                int bytesRead = await stream.ReadAsync(buffer, 0, buffer.Length);
+                string response = Encoding.UTF8.GetString(buffer, 0, bytesRead);
 
-                    clientData = Encoding.UTF8.GetString(buffer);
-                    TestQuestion[] qs = ParseQuestions(clientData);
-                    QuestionsBank = new TestQuestionsBank(qs);
-                    InitializeQuestion(currentQuestionNo);
+                clientData = Encoding.UTF8.GetString(buffer);
+                TestQuestion[] qs = ParseQuestions(clientData);
+                TestQuestion[] allQuestions = JoinTestQuestions(qs, customQs);
+                QuestionsBank = new TestQuestionsBank(allQuestions);
+                maxQuestions = allQuestions.Length;
+                InitializeQuestion(currentQuestionNo);
             }
             catch (Exception ex)
             {
@@ -634,7 +656,7 @@ namespace MultipleChoiceTestsGenerator
         /// <param name="questionsCount"> count of the questions </param>
         /// <param name="seconds"> seconds for solving the test </param>
         /// <param name="studentName">student's name </param>
-        public TestForm(int questionsCount, int seconds, string studentName)
+        public TestForm(int questionsCount, int seconds, string studentName, TestQuestion[] customQs)
         {
             InitializeComponent();
 
@@ -650,6 +672,7 @@ namespace MultipleChoiceTestsGenerator
             totalScore = 0;
             currentQuestionNo = 1;
             maxQuestions = questionsCount;
+            this.customQs = customQs;
         }
 
         /// <summary>
