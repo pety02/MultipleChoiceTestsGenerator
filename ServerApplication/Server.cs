@@ -1,6 +1,7 @@
 ﻿using System.Net.Sockets;
 using System.Net;
 using System.Text;
+using System;
 
 namespace MultipleChoiceTestsGenerator
 {
@@ -16,7 +17,6 @@ namespace MultipleChoiceTestsGenerator
         private TcpListener tcpListener;            // tcp listener
         private TcpClient tcpClient;                // tcp client
         private NetworkStream stream;               // stream of messages
-        private StreamReader reader;                // server stream reader
         private StreamWriter writer;                // server stream writer
 
         /// <summary>
@@ -46,42 +46,50 @@ namespace MultipleChoiceTestsGenerator
         {
             tcpListener = new TcpListener(IPAddress.Any, 1234);
             tcpListener.Start();
-            tcpClient = tcpListener.AcceptTcpClient();
-            Console.WriteLine($"{DateTime.Now}: Client connected to the server.");
-            await ReceiveData(tcpClient);
+            while (true)
+            {
+                tcpClient = await tcpListener.AcceptTcpClientAsync();
+                Console.WriteLine($"{DateTime.Now}: Client connected to the server.");
+                await ReceiveData(tcpClient);
+            }
         }
 
         /// <summary>
-        /// Reading data from the client.
+        /// Asynchronuous seading data from the client.
         /// </summary>
         /// <param name="clientObj"> client object </param>
         /// <param name="clientData"> client message's data </param>
         /// <returns></returns>
-        private string ReadData(TcpClient clientObj,
+        private async Task<string> ReadDataAsync(TcpClient clientObj,
                                       string clientData)
         {
             try
             {
+                byte[] buffer = new byte[8192];
                 stream = clientObj.GetStream();
-                int bytes = clientObj.Available;
-                byte[] bytesArr = new byte[bytes];
-                stream.Read(bytesArr, 0, bytes);
-                clientData = Encoding.UTF8.GetString(bytesArr);
+                int bytes;
+                do
+                {
+                    bytes = await stream.ReadAsync(buffer, 0, buffer.Length);
+                    clientData = Encoding.UTF8.GetString(buffer, 0, bytes);
+                    byte[] responseData = Encoding.UTF8.GetBytes(clientData);
+                    await stream.WriteAsync(responseData, 0, responseData.Length);
+                } while (bytes == 0);
             }
             catch (Exception)
             {
-                Console.WriteLine($"log - {DateTime.Now}: Error in reading");
+                await Console.Out.WriteLineAsync($"log - {DateTime.Now}: Error in reading");
             }
 
             return clientData;
         }
 
         /// <summary>
-        /// Asyncronuously parsing client data like username, time 
+        /// Parsing client data like username, time 
         /// in seconds and preffered questions count.
         /// </summary>
         /// <param name="clientData"> client message's data as string </param>
-        private async Task ParseClientData(string clientData)
+        private void ParseClientData(string clientData)
         {
             string receivedDataComponent = "";
             int componenetsCount = 0;
@@ -126,15 +134,16 @@ namespace MultipleChoiceTestsGenerator
         {
             try { 
                 string clientData = "";
-                clientData = ReadData(clientObj, clientData);
-                await ParseClientData(clientData);
+                clientData = await ReadDataAsync(clientObj, clientData);
+                ParseClientData(clientData);
+                await Console.Out.WriteLineAsync("data: " + clientData);
 
                 questionsBank = new TestQuestionsBank(questionsCount);
                 await SendData(clientObj, questionsBank);
             } 
             catch (Exception ex)
             {
-                Console.WriteLine($"log - {DateTime.Now}: {ex.Message}");
+                await Console.Out.WriteLineAsync($"log - {DateTime.Now}: {ex.Message}");
             }
         }
 
@@ -149,7 +158,7 @@ namespace MultipleChoiceTestsGenerator
             {
                 stream = client.GetStream();
                 writer = new StreamWriter(stream);
-                string serverMessage = "";
+                string serverMessage = "\n";
                 foreach (var question in questions.Questions)
                 {
                     serverMessage += question.QuestionText;
@@ -167,12 +176,13 @@ namespace MultipleChoiceTestsGenerator
                     }
                     serverMessage += "*\n";
                 }
-                writer.Write(serverMessage);
-                writer.Flush();
+                await writer.WriteAsync(serverMessage);
+                await writer.FlushAsync();
+                writer.Close();
             } 
             catch (Exception ex)
             {
-                Console.WriteLine($"log - {DateTime.Now}: {ex.Message}");
+                await Console.Out.WriteLineAsync($"log - {DateTime.Now}: {ex.Message}");
             }
         }
     }

@@ -1,3 +1,4 @@
+using System.Net;
 using System.Net.Sockets;
 using System.Text;
 using System.Threading;
@@ -28,11 +29,16 @@ namespace MultipleChoiceTestsGenerator
         /// <summary>
         /// Makes connection to the server.
         /// </summary>
-        private void ConnectToServer()
+        private async Task ConnectToServer()
         {
             try
             {
-                tcpClient = new TcpClient("127.0.0.1", 1234);
+                tcpClient = new TcpClient();
+                
+                    string ipAddress = "127.0.0.1";
+                    int port = 1234;
+                    await tcpClient.ConnectAsync(ipAddress, port); 
+               
             }
             catch (Exception)
             {
@@ -66,9 +72,15 @@ namespace MultipleChoiceTestsGenerator
         {
             TestQuestion[] questions = new TestQuestion[maxQuestions];
             string currText = "";
-            bool isCorrectAnswersPart = false, isPossibleAnswersPart = false;
+            bool isCorrectAnswersPart = false, isPossibleAnswersPart = false, firstRowIgnored = false;
             for (int i = 0, currQuestionNo = 0, answerIndex = 0; i < data.Length; ++i)
             {
+                while (data[i] != '\n' && !firstRowIgnored)
+                {
+                    i++;
+                    continue;
+                }
+                firstRowIgnored = true;
                 if (data[i] == '\n' && data[i + 1] == 'P')
                 {
                     questions[currQuestionNo] = new TestQuestion();
@@ -122,18 +134,24 @@ namespace MultipleChoiceTestsGenerator
         /// </summary>
         /// <param name="client"> the tcp client </param>
         /// <param name="clientData"> received data as a string </param>
-        private void ReceiveData(TcpClient client, string clientData)
+        private async Task ReceiveData(string clientData)
         {
             try
             {
-                stream = client.GetStream();
-                int bytes = 8192;
-                byte[] bytesArr = new byte[bytes];
-                stream.Read(bytesArr, 0, bytes);
-                clientData = Encoding.UTF8.GetString(bytesArr);
-                TestQuestion[] qs = ParseQuestions(clientData);
-                QuestionsBank = new TestQuestionsBank(qs);
-                InitializeQuestion(currentQuestionNo);
+                if(!tcpClient.Connected)
+                {
+                    await ConnectToServer();
+                }
+                
+                    byte[] buffer = new byte[8192];
+                    stream = tcpClient.GetStream();
+                    int bytesRead = await stream.ReadAsync(buffer, 0, buffer.Length);
+                    string response = Encoding.UTF8.GetString(buffer, 0, bytesRead);
+
+                    clientData = Encoding.UTF8.GetString(buffer);
+                    TestQuestion[] qs = ParseQuestions(clientData);
+                    QuestionsBank = new TestQuestionsBank(qs);
+                    InitializeQuestion(currentQuestionNo);
             }
             catch (Exception ex)
             {
@@ -161,17 +179,17 @@ namespace MultipleChoiceTestsGenerator
         /// Sends data to the server
         /// </summary>
         /// <param name="client"> client - the server in this situation </param>
-        private void SendData(TcpClient client)
+        private async Task SendData()
         {
-            stream = client.GetStream();
+            stream = tcpClient.GetStream();
             writer = new StreamWriter(stream);
             try
             {
                 string clientResponse = $"{studentName},{secondsLeft},{maxQuestions}";
 
-                writer.Write(clientResponse);
-                writer.Flush();
-                stream.Flush();
+                await writer.WriteAsync(clientResponse);
+                await writer.FlushAsync();
+                await stream.FlushAsync();
             }
             catch (Exception ex)
             {
@@ -189,14 +207,14 @@ namespace MultipleChoiceTestsGenerator
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        private void TestForm_Load(object sender, EventArgs e)
+        private async void TestForm_Load(object sender, EventArgs e)
         {
             try
             {
-                ConnectToServer();
-                SendData(tcpClient);
+                await ConnectToServer();
+                await SendData();
                 string clientData = "";
-                ReceiveData(tcpClient, clientData);
+                await ReceiveData(clientData);
             }
             catch (Exception ex)
             {

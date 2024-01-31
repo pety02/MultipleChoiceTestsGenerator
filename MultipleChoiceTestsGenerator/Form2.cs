@@ -29,9 +29,9 @@
         /// <param name="e"></param>
         private void startTestButton_Click(object sender, EventArgs e)
         {
-            int questionsCount = Int32.Parse(questionsCountTextBox.Text);
+            int questionsCount = int.Parse(questionsCountTextBox.Text);
             string studentName = studentNameTextBox.Text;
-            int seconds = Int32.Parse(timeTextBox.Text);
+            int seconds = int.Parse(timeTextBox.Text);
 
             this.Hide();
             TestForm testForm = new TestForm(questionsCount, seconds, studentName);
