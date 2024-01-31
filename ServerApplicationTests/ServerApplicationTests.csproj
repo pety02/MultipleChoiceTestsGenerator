@@ -18,7 +18,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\MultipleChoiceTestsGenerator\MultipleChoiceTestsGenerator.csproj" />
     <ProjectReference Include="..\ServerApplication\ServerApplication.csproj" />
   </ItemGroup>
 

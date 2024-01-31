@@ -3,20 +3,36 @@ using System.Net.Sockets;
 
 namespace ServerApplicationTests
 {
+    /// <summary>
+    /// This class describes the Server NUnit tests.
+    /// </summary>
     [TestFixture]
     public class ServerTests
     {
         private Server server;
+
+        /// <summary>
+        /// Initialize class private fields to prepare them for testing.
+        /// </summary>
         [SetUp]
         public void Setup()
         {
             this.server = new Server();
             Assert.IsNotNull(this.server);
         }
+
+        /// <summary>
+        /// Clears the memory where it is needed.
+        /// </summary>
         [TearDown]
         public void TearDown()
         {
         }
+
+        /// <summary>
+        /// Tests the server asynchronuous listening for clients.
+        /// </summary>
+        /// <returns> nothing </returns>
         [Test]
         public async Task ListenForClientsAsyncTest()
         {
@@ -26,6 +42,11 @@ namespace ServerApplicationTests
             TcpClient tcpClient = tcpListener.AcceptTcpClient();
             Assert.IsTrue(tcpClient.Connected);
         }
+
+        /// <summary>
+        /// Tests the server asynchronuous reading data from the client.
+        /// </summary>
+        /// <returns> nothing </returns>
         [Test]
         public async Task ReadDataAsyncTest()
         {
@@ -37,6 +58,11 @@ namespace ServerApplicationTests
             Assert.That(actual: clientData, Is.Not.EqualTo(null));
             Assert.That(actual: clientData, Is.Not.EqualTo(""));
         }
+
+        /// <summary>
+        /// Tests the server asynchronupus sending data to the client.
+        /// </summary>
+        /// <returns> nothing </returns>
         [Test]
         public async Task SendDataAsync()
         {

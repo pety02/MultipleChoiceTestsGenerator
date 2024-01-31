@@ -77,7 +77,7 @@
         }
 
         /// <summary>
-        /// 
+        /// Validates the custom questions count text field.
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
@@ -93,9 +93,9 @@
         }
 
         /// <summary>
-        /// 
+        /// Check if any string is null or empty string for validation purposes.
         /// </summary>
-        /// <param name="fieldValue"></param>
+        /// <param name="fieldValue"> the value of the field </param>
         private void CheckForNonEmptyTextFields(string fieldValue)
         {
             if (fieldValue.Equals(String.Empty))
@@ -110,17 +110,17 @@
         }
 
         /// <summary>
-        /// 
+        /// Validates wheather custom question text field has changed.
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        private void customQuestionNameField_TextChanged(object sender, EventArgs e)
+        private void customQuestionTextField_TextChanged(object sender, EventArgs e)
         {
             CheckForNonEmptyTextFields(customQuestionTextField.Text);
         }
 
         /// <summary>
-        /// 
+        /// Validates wheather first custom answer text field has changed.
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
@@ -130,7 +130,7 @@
         }
 
         /// <summary>
-        /// 
+        /// Validates wheather second custom answer text field has changed.
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
@@ -140,7 +140,7 @@
         }
 
         /// <summary>
-        /// 
+        /// Validates wheather third custom answer text field has changed.
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
@@ -150,7 +150,7 @@
         }
 
         /// <summary>
-        /// 
+        /// Validates wheather fourth custom answer text field has changed.
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
@@ -160,7 +160,7 @@
         }
 
         /// <summary>
-        /// 
+        /// Validates custom question's correct answers.
         /// </summary>
         private void CheckForCustomCorrectAnswers()
         {
@@ -179,7 +179,7 @@
         }
 
         /// <summary>
-        /// 
+        /// Validates custom question's correct answers.
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
@@ -189,7 +189,7 @@
         }
 
         /// <summary>
-        /// 
+        /// Validates custom question's correct answers.
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
@@ -199,7 +199,7 @@
         }
 
         /// <summary>
-        /// 
+        /// Validates custom question's correct answers.
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
@@ -209,7 +209,7 @@
         }
 
         /// <summary>
-        /// 
+        /// Validates custom question's correct answers.
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
@@ -219,7 +219,7 @@
         }
 
         /// <summary>
-        /// 
+        /// Initialize custom questions array with extraQuestionsCount questions' slots.
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
@@ -240,11 +240,11 @@
         }
 
         /// <summary>
-        /// 
+        /// Gets the answer at index position text.
         /// </summary>
-        /// <param name="index"></param>
+        /// <param name="index"> the position of the answer </param>
         /// <returns></returns>
-        /// <exception cref="Exception"></exception>
+        /// <exception cref="Exception"> Throws Exception with a custom message when the index is out of range. </exception>
         private string GetCurrentAnswer(int index)
         {
             switch (index)
@@ -258,10 +258,10 @@
         }
 
         /// <summary>
-        /// 
+        /// Checks wheather the answer on indexed position is set to be correct or not.
         /// </summary>
-        /// <param name="index"></param>
-        /// <returns></returns>
+        /// <param name="index"> the position of the answer </param>
+        /// <returns> true when the answer is set to be correct and false if it is not correct. </returns>
         private bool IsCorrectAnswer(int index)
         {
             switch (index)
@@ -275,7 +275,8 @@
         }
 
         /// <summary>
-        /// 
+        /// Constructs a custom question and set it on indexed position in the 
+        /// customQuestions array.
         /// </summary>
         private void ConstructCustomQuestion()
         {
@@ -296,7 +297,7 @@
         }
 
         /// <summary>
-        /// 
+        /// Clears the custom question panel after insertion of a new custom question.
         /// </summary>
         private void ClearCustomQuestionPanel()
         {
@@ -312,7 +313,8 @@
         }
 
         /// <summary>
-        /// 
+        /// Inserts new custom question with its answers, clears the panel 
+        /// after that and show message about the proccess.
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>

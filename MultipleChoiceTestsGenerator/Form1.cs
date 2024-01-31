@@ -1,3 +1,4 @@
+using System.Data;
 using System.Net;
 using System.Net.Sockets;
 using System.Text;
@@ -16,7 +17,7 @@ namespace MultipleChoiceTestsGenerator
         private TestQuestion prevQuestion;                          // previous question
         private TestQuestion nextQuestion;                          // next question
         private int currentQuestionNo;                              // number of the current question
-        private int totalScore;                                     // total score till now
+        private double totalScore;                                     // total score till now
         private int maxQuestions;                                   // max number of questions
         private int currentAnswersCount;                            // count of the current answers
         private System.Timers.Timer countdownTimer;                 // timer object
@@ -131,10 +132,11 @@ namespace MultipleChoiceTestsGenerator
         }
 
         /// <summary>
-        /// 
+        /// Joins two TestQuestion arrays at one array (e.g. readed from the server questions 
+        /// and custom added questions).
         /// </summary>
-        /// <param name="readed"></param>
-        /// <param name="custom"></param>
+        /// <param name="readed"> readed from the server questions </param>
+        /// <param name="custom"> custom added questions </param>
         /// <returns></returns>
         private TestQuestion[] JoinTestQuestions(TestQuestion[] readed, TestQuestion[] custom)
         {
@@ -408,6 +410,7 @@ namespace MultipleChoiceTestsGenerator
         {
             DateTime now = DateTime.Now;
             string filePath = $"{studentName}.txt";
+
             string reportMessage = $"Test Report - [{now}]:"
                 + $"\n\tStudent Name: {studentName}\n\tTotal Score: {totalScore}/{maxQuestions}"
                 + $"\n\twith percetage {percentage}% of 100% => Grade: {grade}\n";
@@ -490,17 +493,15 @@ namespace MultipleChoiceTestsGenerator
         {
             foreach (var currQuestion in questionsBank.Questions)
             {
-                foreach (var currQuestionCorrectAnswers in currentQuestion.CorrectAnswers)
+                foreach (var currQuestionCorrectAnswer in currentQuestion.CorrectAnswers)
                 {
-                    foreach (var currQuestionCurrentnswers in currentQuestion.CurrentAnswers)
+                    foreach (var currQuestionCurrentnswer in currentQuestion.CurrentAnswers)
                     {
-                        if (currQuestionCorrectAnswers == currQuestionCurrentnswers)
+                        if (currQuestionCorrectAnswer == currQuestionCurrentnswer)
                         {
-                            totalScore++;
-                            break;
-                        }
+                            totalScore += 0.25;
+                        } 
                     }
-                    break;
                 }
                 break;
             }

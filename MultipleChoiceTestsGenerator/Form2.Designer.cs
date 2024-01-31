@@ -110,7 +110,7 @@
             customQuestionTextField.PlaceholderText = "Question Text";
             customQuestionTextField.Size = new Size(241, 27);
             customQuestionTextField.TabIndex = 11;
-            customQuestionTextField.TextChanged += customQuestionNameField_TextChanged;
+            customQuestionTextField.TextChanged += customQuestionTextField_TextChanged;
             // 
             // firstAnswerTextField
             // 
