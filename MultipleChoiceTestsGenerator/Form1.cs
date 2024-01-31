@@ -1,5 +1,6 @@
 using System.Net.Sockets;
 using System.Text;
+using System.Threading;
 
 namespace MultipleChoiceTestsGenerator
 {
@@ -54,6 +55,66 @@ namespace MultipleChoiceTestsGenerator
                 Application.Exit();
                 Environment.Exit(0);
             }
+        }
+
+        /// <summary>
+        /// Parse questions after reading them as string from the server.
+        /// </summary>
+        /// <param name="data"> generated from the server questions as string </param>
+        /// <returns> questions as an array of TestQuestion objects </returns>
+        private TestQuestion[] ParseQuestions(string data)
+        {
+            TestQuestion[] questions = new TestQuestion[maxQuestions];
+            string currText = "";
+            bool isCorrectAnswersPart = false, isPossibleAnswersPart = false;
+            for (int i = 0, currQuestionNo = 0, answerIndex = 0; i < data.Length; ++i)
+            {
+                if (data[i] == '\n' && data[i + 1] == 'P')
+                {
+                    questions[currQuestionNo] = new TestQuestion();
+                    questions[currQuestionNo].QuestionText = currText;
+                    currText = "";
+                }
+                else if (data[i] == '\n' && currText.Equals("Possible Answers"))
+                {
+                    isPossibleAnswersPart = true;
+                    isCorrectAnswersPart = false;
+                    currText = "";
+                }
+                else if (data[i] == '\n' && currText.Equals("Correct Answers"))
+                {
+                    isPossibleAnswersPart = false;
+                    isCorrectAnswersPart = true;
+                    currText = "";
+                    answerIndex = 0;
+                }
+                else if (data[i] == '\n' && isPossibleAnswersPart && 0 <= answerIndex && answerIndex <= 3)
+                {
+                    questions[currQuestionNo].PossibleAnswers[answerIndex] = currText;
+                    currText = "";
+                    ++answerIndex;
+                }
+                else if (data[i] == '\n' && isCorrectAnswersPart && 0 <= answerIndex && answerIndex <= 3)
+                {
+                    questions[currQuestionNo].CorrectAnswers[answerIndex] = currText;
+                    currText = "";
+                    ++answerIndex;
+                }
+                else if (data[i] == '*' && data[i + 1] == '\n')
+                {
+                    currQuestionNo++;
+                    answerIndex = 0;
+                    currText = "";
+                    isPossibleAnswersPart = false;
+                    isCorrectAnswersPart = false;
+                }
+                else
+                {
+                    currText += data[i];
+                }
+            }
+
+            return questions;
         }
 
         /// <summary>
@@ -307,11 +368,15 @@ namespace MultipleChoiceTestsGenerator
         /// </summary>
         private void FinishTest()
         {
+            countdownTimer.Stop();
+            secondsLeft = 0;
+
+            DisableAllControls();
             double percentage = (totalScore * 100d) / maxQuestions;
             int grade = EvaluateTest(percentage);
 
             string message = $"Points: {totalScore}/{maxQuestions}\nYour grade is: {grade}";
-            DialogResult msgDialog = MessageBox.Show(message, "Test Resukt", MessageBoxButtons.OK);
+            DialogResult msgDialog = MessageBox.Show(message, "Test Result", MessageBoxButtons.OK);
             if (msgDialog == DialogResult.OK)
             {
                 WriteReport(grade, percentage);
@@ -358,26 +423,19 @@ namespace MultipleChoiceTestsGenerator
         {
             timelabel.Text = secondsLeft.ToString();
             secondsLeft--;
-            if (secondsLeft < 0)
+            if (secondsLeft <= 0)
             {
-                countdownTimer.Stop();
                 FinishTest();
             }
         }
 
         /// <summary>
-        /// Submits the test after finishing it.
+        /// Increases total score if current answer is correct.
         /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        private void submitTestButton_Click(object sender, EventArgs e)
+        /// <param name="questionsBank"> a bank of questions </param>
+        private void IncreaseTotalScore(TestQuestionsBank questionsBank)
         {
-            if (0 < secondsLeft)
-            {
-                countdownTimer.Stop();
-            }
-            DisableAllControls();
-            foreach (var currQuestion in QuestionsBank.Questions)
+            foreach (var currQuestion in questionsBank.Questions)
             {
                 foreach (var currQuestionCorrectAnswers in currentQuestion.CorrectAnswers)
                 {
@@ -393,6 +451,16 @@ namespace MultipleChoiceTestsGenerator
                 }
                 break;
             }
+        }
+
+        /// <summary>
+        /// Submits the test after finishing it.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void submitTestButton_Click(object sender, EventArgs e)
+        {
+            IncreaseTotalScore(QuestionsBank);
             FinishTest();
         }
 
@@ -543,66 +611,6 @@ namespace MultipleChoiceTestsGenerator
         }
 
         /// <summary>
-        /// Parse questions after reading them as string from the server.
-        /// </summary>
-        /// <param name="data"> generated from the server questions as string </param>
-        /// <returns> questions as an array of TestQuestion objects </returns>
-        private TestQuestion[] ParseQuestions(string data)
-        {
-            TestQuestion[] questions = new TestQuestion[maxQuestions];
-            string currText = "";
-            bool isCorrectAnswersPart = false, isPossibleAnswersPart = false;
-            for (int i = 0, currQuestionNo = 0, answerIndex = 0; i < data.Length; ++i)
-            {
-                if (data[i] == '\n' && data[i + 1] == 'P')
-                {
-                    questions[currQuestionNo] = new TestQuestion();
-                    questions[currQuestionNo].QuestionText = currText;
-                    currText = "";
-                }
-                else if (data[i] == '\n' && currText.Equals("Possible Answers"))
-                {
-                    isPossibleAnswersPart = true;
-                    isCorrectAnswersPart = false;
-                    currText = "";
-                }
-                else if (data[i] == '\n' && currText.Equals("Correct Answers"))
-                {
-                    isPossibleAnswersPart = false;
-                    isCorrectAnswersPart = true;
-                    currText = "";
-                    answerIndex = 0;
-                }
-                else if (data[i] == '\n' && isPossibleAnswersPart && 0 <= answerIndex && answerIndex <= 3)
-                {
-                    questions[currQuestionNo].PossibleAnswers[answerIndex] = currText;
-                    currText = "";
-                    ++answerIndex;
-                }
-                else if (data[i] == '\n' && isCorrectAnswersPart && 0 <= answerIndex && answerIndex <= 3)
-                {
-                    questions[currQuestionNo].CorrectAnswers[answerIndex] = currText;
-                    currText = "";
-                    ++answerIndex;
-                }
-                else if (data[i] == '*' && data[i + 1] == '\n')
-                {
-                    currQuestionNo++;
-                    answerIndex = 0;
-                    currText = "";
-                    isPossibleAnswersPart = false;
-                    isCorrectAnswersPart = false;
-                }
-                else
-                {
-                    currText += data[i];
-                }
-            }
-
-            return questions;
-        }
-
-        /// <summary>
         /// TestForm class's generous purpose constructor.
         /// </summary>
         /// <param name="questionsCount"> count of the questions </param>
@@ -616,6 +624,7 @@ namespace MultipleChoiceTestsGenerator
             secondsLeft = seconds;
             countdownTimer.Interval = 1000;
             countdownTimer.Elapsed += CountdownTimer_Tick;
+           
             StartCountdown();
             currentAnswersCount = 0;
             this.studentName = studentName;
