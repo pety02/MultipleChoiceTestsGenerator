@@ -428,10 +428,11 @@ namespace MultipleChoiceTestsGenerator
             secondsLeft = 0;
 
             DisableAllControls();
-            double percentage = (totalScore * 100d) / maxQuestions;
+            double maxTotalScore = GetTotalPoints(questionsBank);
+            double percentage = (totalScore * 100d) / maxTotalScore;
             int grade = EvaluateTest(percentage);
 
-            string message = $"Points: {totalScore}/{maxQuestions}\nYour grade is: {grade}";
+            string message = $"Points: {totalScore}/{maxTotalScore}\nYour grade is: {grade}";
             DialogResult msgDialog = MessageBox.Show(message, "Test Result", MessageBoxButtons.OK);
             if (msgDialog == DialogResult.OK)
             {
@@ -486,6 +487,28 @@ namespace MultipleChoiceTestsGenerator
         }
 
         /// <summary>
+        /// Returns the total points in a test.
+        /// </summary>
+        /// <param name="test"> definite test object </param>
+        /// <returns> count of the total points in this test </returns>
+        private double GetTotalPoints(TestQuestionsBank test)
+        {
+            double totalPoints = 0.0;
+            foreach(TestQuestion question in test.Questions)
+            {
+                foreach(string correctAnswer in question.CorrectAnswers)
+                {
+                    if(correctAnswer != null)
+                    {
+                        totalPoints += 0.25;
+                    }
+                }
+            }
+
+            return totalPoints;
+        }
+
+        /// <summary>
         /// Increases total score if current answer is correct.
         /// </summary>
         /// <param name="questionsBank"> a bank of questions </param>
@@ -502,8 +525,8 @@ namespace MultipleChoiceTestsGenerator
                             totalScore += 0.25;
                         } 
                     }
+                    break;
                 }
-                break;
             }
         }
 
