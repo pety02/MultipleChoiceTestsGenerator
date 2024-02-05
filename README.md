@@ -46,6 +46,10 @@ After starting the server, it asyncronuously prints on the console message.
  
  On test compleation the client view a similar message box.
 
+ ## Literature:
+ 1. Course presentations
+ 2. Stack overflow for problems connected with the server and asyn multithread server implmentation
+
 
 
 
